@@ -1,0 +1,160 @@
+syntax = "proto3";
+package medcic_proto;
+
+/*************/
+/* Version 4 */
+/************/
+
+enum STATUS
+{
+	RUN = 0;
+	STOP = 1;
+	ERROR = 2;
+	WARNING = 3;
+}
+
+enum CHANEL_STATUS
+{
+	UNKNOWN = 0;
+	OUT_OF_SYNC = 1;
+	SYNC = 2;
+}
+
+enum ENCAPSULATION
+{
+	DI = 0;
+	DI_PLUS = 1;
+	EDMAC = 2;
+	EDMAC2_2928 = 3;
+	EDMAC2_3072 = 4;
+	ESC_532 = 5;
+	ESC_551 = 6;
+	ESC_1104 = 7;
+	ESC_1792 = 8;
+	E2 = 9;
+	ESC_874 = 10;
+}
+
+
+enum OPCODE
+{
+	HEADER = 0;
+	ACK = 1;
+	NACK = 2;
+	AUTO_START_CMD = 3;
+	START_CMD = 4;
+	STOP_CMD = 5;
+	STATUS_REQUEST = 6;
+	STATUS_REPLAY = 7;
+	STATUS_MESSAGE = 8;
+	GET_SAMPLE_FILE = 9;
+	IDENTYPIED_ENCAPSULATION = 10;
+	STATISTICS_REPLAY = 11;
+}
+
+
+/*****************************************************************************************************************************/
+//
+message Header
+{
+	int32 sequence = 1;
+	OPCODE opcode = 2;			// Opcode
+	bytes message_data = 3;
+}
+
+/*****************************************************************************************************************************/
+// This command should be sent to start processing bitstream
+message AutomaticStartCommand
+{
+	string input1_url = 1;			// The output url. The format should be udp://<host ip>:port or for the swFE file://<full path with filename and extention>
+	string input2_url = 2;			// see input1_url
+	string output1_url = 3;			// The output url. The format should be udp://<host ip>:port or file://<full path with filename and extention>
+	string output2_url = 4;			// see output1_url
+}
+
+
+/*****************************************************************************************************************************/
+// This command should be sent to start processing bitstream
+message StartCommand
+{
+	string input1_url = 1;			// The output url. The format should be udp://<host ip>:port or for the swFE file://<full path with filename and extention>
+	string input2_url = 2;			// see input1_url
+	string output1_url = 3;			// The output url. The format should be udp://<host ip>:port or file://<full path with filename and extention>
+	string output2_url = 4;			// see output1_url
+	ENCAPSULATION encapsulation = 5;
+}
+
+/*****************************************************************************************************************************/
+// This command stops the mediation
+message StopCommand
+{
+}
+
+/*****************************************************************************************************************************/
+// This replay us sent as responce to START_CMD or STOP_CMD
+message Ack
+{
+}
+
+/*****************************************************************************************************************************/
+// This replay us sent as responce to START_CMD or STOP_CMD
+message Nack
+{
+}
+
+/*****************************************************************************************************************************/
+// This should be sent in order to get StatusReplay
+message StatusRequest
+{
+}
+
+/*****************************************************************************************************************************/
+// This replay is sent as response to StatusRequest, ss event for new warning/error or when ever the status changes, new warning 
+message StatusReplay
+{
+	STATUS status = 1;
+	CHANEL_STATUS cic1Input = 2;
+	CHANEL_STATUS cic2Input = 3;
+	CHANEL_STATUS cic1Output = 4;
+	CHANEL_STATUS cic2Output = 5;
+	string status_description = 6;
+	bool warning = 7;
+	string warning_message = 8;
+	int32 warning_number = 9;
+	bool error = 10;
+	string error_mMessage = 11;
+	int32 error_number = 12;
+}
+
+/*****************************************************************************************************************************/
+// This message is sent to display status text message
+message StatusMessage
+{
+	string message = 1;
+}
+
+/*****************************************************************************************************************************/
+// This command should be sent to start processing bitstream
+message GetSampleFile
+{
+	string input_url = 1;			// The intput url.
+	string filename = 2;			// sample filename
+	int32 duration = 3; 	       	//duration in seconds
+}
+
+/*****************************************************************************************************************************/
+// This should be sent in order to inform on discovered encapsulation
+message IdentifiedEncapsulation
+{
+	ENCAPSULATION encapsulation = 1;
+}
+
+/*****************************************************************************************************************************/
+// This should be sent in order to update counters
+message StatisticsReplay
+{
+	int64 Cic1InputByteCounter = 1;
+	int64 Cic2InputByteCounter = 2;
+	int64 Cic1OutputByteCounter = 3;
+	int64 Cic2OutputByteCounter = 4;
+}
