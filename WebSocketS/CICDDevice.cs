@@ -22,6 +22,16 @@ namespace WebSocketS
 
         public bool Start(float cncarrierdb, string sampleFile, Uri output1_url, Uri output2_url)
         {
+            /* 
+             * Start legobits from a predefine location using a predefined file with fix address.
+             * The file send 2 streams of ESC++ (553) streams to 127.0.0.1:5001 and udp://127.0.0.1:5002
+             * 
+            */
+            return true;
+        }
+
+        public bool Start_CICD(float cncarrierdb, string sampleFile, Uri output1_url, Uri output2_url)
+        {
             try
             {
                 lasrCommand = "Start from File Command";
@@ -48,6 +58,11 @@ namespace WebSocketS
 
         public override async Task<bool> Stop()
         {
+            /*
+             * Stop the legobits if it is running
+             * 
+             */
+
             try
             {
                 Header h = new Header { Sequence = 0, Opcode = OPCODE.Stop };

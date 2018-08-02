@@ -1,3 +1,8 @@
 /WebSocketS/*
 /packages
 /WebSocketServer/*
+/.vs/SatManager/v15/Server/sqlite3/storage.ide-wal
+/.vs/SatManager/v15/Server/sqlite3/storage.ide-shm
+/.vs/SatManager/v15/Server/sqlite3/storage.ide
+/.vs/SatManager/v15/Server/sqlite3/db.lock
+/.vs/SatManager/v15/.suo
