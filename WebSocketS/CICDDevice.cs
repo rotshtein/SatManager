@@ -1,7 +1,9 @@
-﻿using CICD;
+﻿#define CICD_SIMULATOR 
+using CICD;
 using Google.Protobuf;
 using log4net;
 using System;
+using System.Diagnostics;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -14,6 +16,7 @@ namespace WebSocketS
         bool gotNack = false;
         string lasrCommand = "";
         bool isRunning = false;
+        Process process = null;
 
         public CICDDevice(Uri WebSocketUrl, IguiInterface Gui) : base(WebSocketUrl, Gui)
         {
@@ -22,16 +25,35 @@ namespace WebSocketS
 
         public bool Start(float cncarrierdb, string sampleFile, Uri output1_url, Uri output2_url)
         {
+#if CICD_SIMULATOR
             /* 
              * Start legobits from a predefine location using a predefined file with fix address.
              * The file send 2 streams of ESC++ (553) streams to 127.0.0.1:5001 and udp://127.0.0.1:5002
              * 
             */
-            return true;
-        }
+            try
+            {
+                if (process != null)
+                {
+                    process.Kill();
+                    process = null;
+                }
 
-        public bool Start_CICD(float cncarrierdb, string sampleFile, Uri output1_url, Uri output2_url)
-        {
+                process.StartInfo.FileName = Properties.Settings.Default.LegpBits;
+                process.StartInfo.Arguments = Properties.Settings.Default.LegoFile;
+
+                process.Start();
+            }
+            catch(Exception ex)
+            {
+                gui.ShowMessage("Failed to start CICD Simulator");
+                log.Error("Failed to start CICD Simulator", ex);
+                return false;
+            }
+            gui.ShowMessage("CICD Simulator is running");
+            return true;
+#else
+          
             try
             {
                 lasrCommand = "Start from File Command";
@@ -54,6 +76,7 @@ namespace WebSocketS
                 isRunning = false;
             }
             return isRunning;
+#endif
         }
 
         public override async Task<bool> Stop()
@@ -62,7 +85,19 @@ namespace WebSocketS
              * Stop the legobits if it is running
              * 
              */
-
+            gui.ShowMessage("CICD Simulator is stopping");
+#if CICD_SIMULATOR
+            if (process != null)
+            {
+                process.Kill();
+                log.Debug("Killing the CICD simulator");
+            }
+            else
+            {
+                log.Debug("Try to illing the CICD simulator when process is null");
+            }
+            return true;
+#else
             try
             {
                 Header h = new Header { Sequence = 0, Opcode = OPCODE.Stop };
@@ -77,11 +112,20 @@ namespace WebSocketS
                 log.Error("Failed to stop", e);
             }
             return false;
+#endif
         }
 
         public override bool IsRunnign()
         {
-            return isRunning;
+#if CICD_SIMULATOR
+            if (process == null)
+            {
+                return false;
+            }
+            return !process.HasExited;
+#else
+            //return isRunning;
+#endif
         }
 
         public override void OnReceive(Client sender, byte[] data)
