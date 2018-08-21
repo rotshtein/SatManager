@@ -21,12 +21,14 @@ namespace Lbc4000SnmpDriver
     public class Lbc4000
     {
         #region private fields
+
         private BackgroundWorker _sender;
         private BackgroundWorker _receiver;
         private static List<Lbc4000> _deviceList;
         private SnmpV2Packet _result;
         private readonly ConcurrentQueue<Pdu[]> _commands = new ConcurrentQueue<Pdu[]>();
         private Logger _logger;
+
         #endregion private fields
 
         #region public properties
@@ -86,7 +88,7 @@ namespace Lbc4000SnmpDriver
 
         #endregion public properties
 
-        #region construction and creation of isntances
+        #region construction and creation of instances
 
         private Lbc4000(IPAddress ipAddress, string writeCommunity, string readCommunity, int port, int retry, int timeout, int updateInterval = 1000)
         {
@@ -98,13 +100,25 @@ namespace Lbc4000SnmpDriver
             Timeout = timeout;
             UpdateInterval = updateInterval;
             _logger = Logger.GetLogger();
-
-            if (!TestConnection())
-            {
-                _logger.WriteMessage("Device is offline!", DebugLevel.ERROR);
-                throw new NotSupportedException("Device offline!");
-            }
         }
+
+        public static Lbc4000 GetDevice(IPAddress ipAddress, string writeCommunity="private", string readCommunity="public", int port=161, int retry=3, int timeout=1000, int updateInterval = 1000)
+        {
+            if (_deviceList == null)
+                _deviceList = new List<Lbc4000>();
+            foreach (var dev in _deviceList)
+                if (dev.HostName == ipAddress)
+                    //throw new Exception("Device already exists!"); // TODO: or return existing device?
+                    return dev;
+
+            var newInstance = new Lbc4000(ipAddress, writeCommunity, readCommunity, port, retry, timeout, updateInterval);
+            _deviceList.Add(newInstance);
+            return newInstance;
+        }
+
+        #endregion construction and creation of instances
+
+        #region public methods
 
         public void Run()
         {
@@ -117,22 +131,10 @@ namespace Lbc4000SnmpDriver
             RunSetCommands();
         }
 
-        public static Lbc4000 GetDevice(IPAddress ipAddress, string writeCommunity, string readCommunity, int port, int retry, int timeout, int updateInterval = 1000)
+        public bool Connect()
         {
-            if (_deviceList == null)
-                _deviceList = new List<Lbc4000>();
-            foreach (var dev in _deviceList)
-                if (dev.HostName == ipAddress)
-                    throw new Exception("Device already exists!"); // TODO: or return existing device?
-
-            var newInstance = new Lbc4000(ipAddress, writeCommunity, readCommunity, port, retry, timeout, updateInterval);
-            _deviceList.Add(newInstance);
-            return newInstance;
+            return TestConnection();
         }
-
-        #endregion construction and creation of isntances
-
-        #region public methods
 
         public bool TestConnection()
         {
@@ -222,17 +224,15 @@ namespace Lbc4000SnmpDriver
             _sender.DoWork += (sender, e) =>
             {
                 _logger.WriteMessage("Sending worker started", DebugLevel.DEBUG);
-                var w = sender as BackgroundWorker;
-                while (!w.CancellationPending)
+                var worker = sender as BackgroundWorker;
+                while (!worker.CancellationPending)
                 {
                     try
                     {
                         using (var target = new UdpTarget(HostName, Port, Timeout, Retry))
                         {
-                            Pdu[] pdus;
-                            while (_commands.TryDequeue(out pdus))
+                            while (_commands.TryDequeue(out Pdu[] pdus))
                             {
-                                //OnDataEvent(new DataEventArgs(false));
                                 foreach (var pdu in pdus)
                                 {
                                     try
@@ -243,9 +243,13 @@ namespace Lbc4000SnmpDriver
                                         {
                                             _logger.WriteMessage("Send command result is null", DebugLevel.ERROR);
                                         }
-                                        if (result.Pdu.ErrorStatus != 0)
+                                        else if (result.Pdu.ErrorStatus != 0)
                                         {
-                                            _logger.WriteMessage(String.Format("{0} raised error number: {1} - {2}", result.Pdu.RequestId ,result.Pdu.ErrorIndex, ((PduErrorStatus)result.Pdu.ErrorIndex).ToString()), DebugLevel.ERROR);
+                                            _logger.WriteMessage(String.Format("{0} raised error number: {1} - {2}", result.Pdu.RequestId, result.Pdu.ErrorIndex, ((PduErrorStatus)result.Pdu.ErrorIndex).ToString()), DebugLevel.ERROR);
+                                        }
+                                        else
+                                        {
+                                            worker.ReportProgress(0);
                                         }
                                     }
                                     catch (Exception ex)
@@ -254,7 +258,6 @@ namespace Lbc4000SnmpDriver
                                     }
                                 }
                             }
-                            //OnDataEvent(new DataEventArgs(true));
                         }
                     }
                     catch (Exception ex)
@@ -272,24 +275,27 @@ namespace Lbc4000SnmpDriver
             _receiver = new BackgroundWorker { WorkerSupportsCancellation = true };
             _receiver.DoWork += (sender, e) =>
             {
+                var worker = sender as BackgroundWorker;
                 _logger.WriteMessage("Receiving worker started", DebugLevel.DEBUG);
-                var w = (BackgroundWorker)sender;
                 using (var target = new UdpTarget(HostName, Port, Timeout, Retry))
                 {
-                    while (!w.CancellationPending)
+                    while (!worker.CancellationPending)
                     {
                         if (GetCurrentInformation(target))
                         {
+                            worker.ReportProgress(1);
                             _logger.WriteMessage("Got information successfully!", DebugLevel.DEBUG);
                         }
                         else
                         {
+                            worker.ReportProgress(0);
                             _logger.WriteMessage("Couldn't get information.", DebugLevel.ERROR);
                         }
                         Thread.Sleep(UpdateInterval);
                     }
                 }
             };
+
             _receiver.RunWorkerAsync();
         }
 
