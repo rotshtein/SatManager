@@ -83,9 +83,9 @@
     <Content Include="Lbc4000.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DcControlLib\DCControlLib.csproj">
-      <Project>{3f21d709-2970-42fc-b4bc-3005d96fee8b}</Project>
-      <Name>DCControlLib</Name>
+    <ProjectReference Include="..\DcLib\DcLib.csproj">
+      <Project>{c9273c29-f5b2-4520-ab01-5ade88901712}</Project>
+      <Name>DcLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

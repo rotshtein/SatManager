@@ -232,24 +232,34 @@ namespace DCControllerUI
                 _timeout = int.Parse(timeoutTB.Text);
                 var updateInterval = int.Parse(updateIntervalTB.Text);
                 _device = Lbc4000.GetDevice(ipAddress, writeCommunity, readCommunity, port, retry, _timeout, updateInterval);
-                _device.Run();
-                InitPorts();
-                _connected = true;
-                connectBtn.BackColor = Color.Green;
-                connectBtn.Text = "Disconnect";
+                if (_device.Connect())
+                {
+                    _device.Run();
+                    InitPorts();
+                    _connected = true;
+                    connectBtn.BackColor = Color.Green;
+                    connectBtn.Text = "Disconnect";
+                    Text = "DCController - Connected";
+                    getStateBtn.Enabled = true;
+                    downloadConfigBtn.Enabled = true;
+                    getStateBtn_Click(sender, e);
+                }
+
+                else
+                {
+                    _logger.WriteMessage("Couldn't connect to device", DebugLevel.ERROR);
+                    _connected = false;
+                    Disconnect();
+                    MessageBox.Show("Couldn't connect to specified IP address", "Sorry", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             catch (Exception ex)
             {
                 _logger.WriteMessage(ex.Message, DebugLevel.ERROR);
                 _connected = false;
                 Disconnect();
-                MessageBox.Show(string.Format("Couldn't connect to specified IP address"), "Sorry", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Thrown exception: " + ex.Message, "Sorry", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            this.Text = "DCController - Connected";
-            getStateBtn.Enabled = true;
-            downloadConfigBtn.Enabled = true;
-            getStateBtn_Click(sender, e);
         }
         
         private void downloadConfigBtn_Click(object sender, EventArgs e)
