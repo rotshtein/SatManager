@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SatManager", "WebSocketS\SatManager.csproj", "{C99CCA99-0523-4EAB-8D3E-FDF1D66686B9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DCControllerUI", "DCControllerUI\DCControllerUI.csproj", "{4CCF8187-D072-4EFD-886C-80B46FD0247F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DcLib", "DcLib\DcLib.csproj", "{C9273C29-F5B2-4520-AB01-5ADE88901712}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{C99CCA99-0523-4EAB-8D3E-FDF1D66686B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C99CCA99-0523-4EAB-8D3E-FDF1D66686B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C99CCA99-0523-4EAB-8D3E-FDF1D66686B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CCF8187-D072-4EFD-886C-80B46FD0247F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CCF8187-D072-4EFD-886C-80B46FD0247F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CCF8187-D072-4EFD-886C-80B46FD0247F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CCF8187-D072-4EFD-886C-80B46FD0247F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9273C29-F5B2-4520-AB01-5ADE88901712}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9273C29-F5B2-4520-AB01-5ADE88901712}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9273C29-F5B2-4520-AB01-5ADE88901712}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9273C29-F5B2-4520-AB01-5ADE88901712}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
