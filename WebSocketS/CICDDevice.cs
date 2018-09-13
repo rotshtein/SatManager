@@ -47,7 +47,7 @@ namespace WebSocketS
 
         }
 
-        public bool Start(float FeinHz, float Fchz, float Usefulbwhz, float Gaindb, float cncarrierdb, string sampleFile, Uri output1_url, Uri output2_url)
+        public async Task<bool> Start(float FeinHz, float Fchz, float Usefulbwhz, float Gaindb, float cncarrierdb, string sampleFile, Uri output1_url, Uri output2_url)
         {
 #if CICD_SIMULATOR
             /* 
@@ -90,10 +90,12 @@ namespace WebSocketS
 
                 identifyAndSeparate(output1_url, output2_url, cncarrierdb);
 
+                // Wait for ???????
+
             }
             catch (Exception e)
             {
-                log.Error("CICD error during start [from file]", e);
+                log.Error("CICD error during start", e);
                 return false;
             }
             return true; ;

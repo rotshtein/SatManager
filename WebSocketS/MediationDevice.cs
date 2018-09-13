@@ -20,7 +20,7 @@ namespace WebSocketS
 
         }
 
-        public bool Start(Uri input1_url, Uri input2_url, Uri output1_url, Uri output2_url)
+        public async Task<bool> Start(Uri input1_url, Uri input2_url, Uri output1_url, Uri output2_url)
         {
             try
             {
