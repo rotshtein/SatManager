@@ -107,6 +107,18 @@ enum CICD_FEstate
     FE_RUNNING = 2;
 }
 
+/**
+ * CICD state
+ */
+enum CICD_state
+{
+    CICD_STOPPED = 0;
+    CICD_IDENTIFICATION = 1;
+    CICD_IDENTIFICATION_DONE = 2;
+    CICD_IDENTIFICATION_FAILED = 3;
+    CICD_SEPARATION_INIT = 4;
+    CICD_SEPARATION = 5;
+};
 
 
 /**
@@ -368,6 +380,9 @@ message HWFE_state_changed {
 }
 
 
+message CICD_state_changed {
+	CICD_state		return_code	= 1;
+}
 
 
 message getHeader {
