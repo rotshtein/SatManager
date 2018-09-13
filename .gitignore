@@ -6,3 +6,10 @@
 /.vs/SatManager/v15/Server/sqlite3/storage.ide
 /.vs/SatManager/v15/Server/sqlite3/db.lock
 /.vs/SatManager/v15/.suo
+/CicManagerLib/bin/Debug
+/CicManagerLib/obj/Debug
+/DCControllerUI/bin/Debug
+/DcLib/bin/Debug
+/DcLib/obj/Debug
+/DCControllerUI/obj/Debug
+/.vs/SatManager/DesignTimeBuild
