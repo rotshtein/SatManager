@@ -56,6 +56,10 @@ namespace WebSocketS
 
             await cicdDevicve.Start((float)numFrequency.Value, (float)numLBandFreq.Value, (float)numUsefulBw.Value, (float)numGain.Value,
                     1,"", new Uri(Properties.Settings.Default.CICDtoMedCICUri1), new Uri(Properties.Settings.Default.CICDtoMedCICUri2));
+            if (!cicdDevicve.IsRunnign())
+            {
+                return;
+            }
             #endregion
 
             #region Start the Mediation
