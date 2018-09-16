@@ -5,6 +5,7 @@ using log4net;
 using System;
 using System.Diagnostics;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace WebSocketS
@@ -12,11 +13,17 @@ namespace WebSocketS
     class CICDDevice : Device
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType.Name);
+        private static readonly ManualResetEvent configureHWFE_Ended = new ManualResetEvent(false);
+        private static readonly ManualResetEvent identifyAndSeparate_Ended = new ManualResetEvent(false);
+        bool configureHWFE_Status = false;
+
         bool gotAck = false;
         bool gotNack = false;
         string lasrCommand = "";
         bool isRunning = false;
         int Sequence = 0;
+
+
 #if CICD_SIMULATOR
         Process process = null;
 #endif
@@ -82,16 +89,35 @@ namespace WebSocketS
             {
                 configureHWFE(FeinHz, Fchz, Usefulbwhz, Gaindb);
 
-                // Wait for ???????
+                /* Wait for
+                 * After configuring the frontend (SW or HW), you first get a ACK message from the server:
+                 * - OPCODE=1 (ACK)
+                 * - message_data = ack message configure SWFE or HWFE
+                 * Then you get a FE_CONFSTATUS_CHANGED message
+                 * - OPCODE=10
+                 * - message = true if successful, false otherwise
+                */
+                configureHWFE_Ended.WaitOne(3000);
 
-                startFE();  // Do i need this?
-
-                // Wait for ???????
+                if (configureHWFE_Status == false)
+                {
+                    throw new Exception("Failed to configureHWFE");
+                }
 
                 identifyAndSeparate(output1_url, output2_url, cncarrierdb);
 
-                // Wait for ???????
+                /* Wait for 
+                 * - either get an error message if no CICD is detected
+                 * - or get the identification report message and then separation status update,
+                 * and then the separator will start and report its status at each step. When started, 
+                 * you can also request a status report at any time
+                */
 
+                if (!identifyAndSeparate_Ended.WaitOne(new TimeSpan(0, 5, 0))) // wait 5 minuts
+                {
+                    throw new Exception("Failed start seperation using identifyAndSeparate command");
+                }
+                isRunnign = true;
             }
             catch (Exception e)
             {
@@ -258,15 +284,16 @@ namespace WebSocketS
                             break;
 
                         case OPCODE.Nack:
-                            gotNack = false;
+                            gotNack = true;
                             gui.ShowMessage("CICD: " + lasrCommand + " failed");
                             log.Warn("got Nack from the server");
                             break;
 
                         case OPCODE.HwfeStateChanged:
                             HWFE_state_changed state = HWFE_state_changed.Parser.ParseFrom(h.MessageData);
-                            isRunnign = state.ReturnCode == HWFE_state.HwfeRunning;
+                            configureHWFE_Status = state.ReturnCode != 0;
                             gui.ShowMessage("CICD: HwfeStateChanged status is " + this.isRunnign.ToString());
+                            configureHWFE_Ended.Set();
                             break;
 
                         case OPCODE.MonitoringReport:
@@ -289,6 +316,9 @@ namespace WebSocketS
                             gui.ShowMessage("CICD: HwfeStateChanged separationState is " + this.separationState.ToString());
                             break;
 
+                        case OPCODE.IdentificationReport:
+                            identifyAndSeparate_Ended.Set();
+                            break;
                         default:
                             break;
                     }
@@ -312,7 +342,7 @@ namespace WebSocketS
              * 
              */
 
-            if (process != null)
+                if (process != null)
             {
                 process.Kill();
                 log.Debug("Killing the CICD simulator");
