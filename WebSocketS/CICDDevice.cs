@@ -13,9 +13,9 @@ namespace WebSocketS
     class CICDDevice : Device
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType.Name);
-        private static readonly ManualResetEvent configureHWFE_Ended = new ManualResetEvent(false);
+        private static readonly ManualResetEvent configureFE_Ended = new ManualResetEvent(false);
         private static readonly ManualResetEvent identifyAndSeparate_Ended = new ManualResetEvent(false);
-        bool configureHWFE_Status = false;
+        bool configureFE_Status = false;
 
         bool gotAck = false;
         bool gotNack = false;
@@ -54,7 +54,7 @@ namespace WebSocketS
 
         }
 
-        public async Task<bool> Start(float FeinHz, float Fchz, float Usefulbwhz, float Gaindb, float cncarrierdb, string sampleFile, Uri output1_url, Uri output2_url)
+        public async Task<bool> Start(string Inputfilename, float FeinHz, float Fchz, float Usefulbwhz, float Gaindb, float cncarrierdb, string sampleFile, Uri output1_url, Uri output2_url)
         {
 #if CICD_SIMULATOR
             /* 
@@ -87,23 +87,44 @@ namespace WebSocketS
 
             try
             {
-                configureHWFE(FeinHz, Fchz, Usefulbwhz, Gaindb);
-
-                /* Wait for
-                 * After configuring the frontend (SW or HW), you first get a ACK message from the server:
-                 * - OPCODE=1 (ACK)
-                 * - message_data = ack message configure SWFE or HWFE
-                 * Then you get a FE_CONFSTATUS_CHANGED message
-                 * - OPCODE=10
-                 * - message = true if successful, false otherwise
-                */
-                configureHWFE_Ended.WaitOne(3000);
-
-                if (configureHWFE_Status == false)
+                if (string.IsNullOrEmpty(Inputfilename))
                 {
-                    throw new Exception("Failed to configureHWFE");
-                }
+                    configureSWFE(FeinHz, Fchz, Usefulbwhz, Gaindb, Inputfilename);
 
+                    /* Wait for
+                     * After configuring the frontend (SW or HW), you first get a ACK message from the server:
+                     * - OPCODE=1 (ACK)
+                     * - message_data = ack message configure SWFE or HWFE
+                     * Then you get a FE_CONFSTATUS_CHANGED message
+                     * - OPCODE=10
+                     * - message = true if successful, false otherwise
+                    */
+                    configureFE_Ended.WaitOne(3000);
+
+                    if (configureFE_Status == false)
+                    {
+                        throw new Exception("Failed to configureHWFE");
+                    }
+                }
+                else
+                {
+                    configureHWFE(FeinHz, Fchz, Usefulbwhz, Gaindb);
+
+                    /* Wait for
+                     * After configuring the frontend (SW or HW), you first get a ACK message from the server:
+                     * - OPCODE=1 (ACK)
+                     * - message_data = ack message configure SWFE or HWFE
+                     * Then you get a FE_CONFSTATUS_CHANGED message
+                     * - OPCODE=10
+                     * - message = true if successful, false otherwise
+                    */
+                    configureFE_Ended.WaitOne(3000);
+
+                    if (configureFE_Status == false)
+                    {
+                        throw new Exception("Failed to configureHWFE");
+                    }
+                }
                 identifyAndSeparate(output1_url, output2_url, cncarrierdb);
 
                 /* Wait for 
@@ -128,7 +149,35 @@ namespace WebSocketS
 #endif
         }
 
-#region Proto Commands
+        #region Proto Commands
+        public bool configureSWFE(float FeinHz, float Fchz, float Usefulbwhz, float Gaindb, string InputFilename)
+        {
+            try
+            {
+                configure_SWFE csw = new configure_SWFE
+                {
+                    Filename = InputFilename,
+                    Inputsignalsubtypefromfile = SubType.TypeFloat,
+                    Feinhz = FeinHz,
+                    Fchz = Fchz,
+                    Usefulbwhz = Usefulbwhz,
+                    Gaindb = Gaindb,
+                    Wideband = false,
+                };
+
+                Header h = new Header { Sequence = Sequence++, Opcode = OPCODE.ConfigureSwfe, MessageData = MessageExtensions.ToByteString(csw) };
+                lasrCommand = "configure_SWFE";
+                Send(MessageExtensions.ToByteArray(h));
+                log.Debug("configureSWFE sent");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("configureHWFE failed", ex);
+            }
+            return false;
+        }
+
         public bool configureHWFE(float FeinHz, float Fchz, float Usefulbwhz, float Gaindb)
         {
             try
@@ -289,11 +338,18 @@ namespace WebSocketS
                             log.Warn("got Nack from the server");
                             break;
 
+                        case OPCODE.SwfeStateChanged:
+                            SWFE_state_changed sw_state = SWFE_state_changed.Parser.ParseFrom(h.MessageData);
+                            configureFE_Status = sw_state.ReturnCode != 0;
+                            gui.ShowMessage("CICD: SwfeStateChanged status is " + this.isRunnign.ToString());
+                            configureFE_Ended.Set();
+                            break;
+
                         case OPCODE.HwfeStateChanged:
-                            HWFE_state_changed state = HWFE_state_changed.Parser.ParseFrom(h.MessageData);
-                            configureHWFE_Status = state.ReturnCode != 0;
+                            HWFE_state_changed hw_state = HWFE_state_changed.Parser.ParseFrom(h.MessageData);
+                            configureFE_Status = hw_state.ReturnCode != 0;
                             gui.ShowMessage("CICD: HwfeStateChanged status is " + this.isRunnign.ToString());
-                            configureHWFE_Ended.Set();
+                            configureFE_Ended.Set();
                             break;
 
                         case OPCODE.MonitoringReport:

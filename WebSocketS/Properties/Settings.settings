@@ -29,5 +29,11 @@
     <Setting Name="CygnusUrl" Type="System.String" Scope="User">
       <Value Profile="(Default)">127.0.0.01:8889</Value>
     </Setting>
+    <Setting Name="InputFilename" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="debug" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

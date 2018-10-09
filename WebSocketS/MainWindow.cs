@@ -44,6 +44,18 @@ namespace WebSocketS
                 btnStart.Enabled = true;
             }
 
+            if (chkUseFile.Checked)
+            {
+                if (string.IsNullOrEmpty(chkUseFile.Text) )
+                {
+                    MessageBox.Show("Please setup the input file names ", "Input Filename", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    btnStart.Enabled = true;
+                }
+
+                Properties.Settings.Default.InputFilename = txtInputFilename.Text;
+                Properties.Settings.Default.Save();
+            }
+
             #region Start DC and Wait until DC is setup and operational 
             #endregion
 
@@ -53,11 +65,19 @@ namespace WebSocketS
                 await cicdDevicve.Stop();
             }
             cicdDevicve = new CICDDevice(new Uri(Properties.Settings.Default.CICCDUrl), this);
-
-            await cicdDevicve.Start((float)numFrequency.Value, (float)numLBandFreq.Value, (float)numUsefulBw.Value, (float)numGain.Value,
-                    1,"", new Uri(Properties.Settings.Default.CICDtoMedCICUri1), new Uri(Properties.Settings.Default.CICDtoMedCICUri2));
+            if (chkUseFile.Checked)
+            {
+                await cicdDevicve.Start(txtInputFilename.Text, (float)numFrequency.Value, (float)numLBandFreq.Value, (float)numUsefulBw.Value, (float)numGain.Value,
+                        1, "", new Uri(Properties.Settings.Default.CICDtoMedCICUri1), new Uri(Properties.Settings.Default.CICDtoMedCICUri2));
+            }
+            else
+            {
+                await cicdDevicve.Start(null, (float)numFrequency.Value, (float)numLBandFreq.Value, (float)numUsefulBw.Value, (float)numGain.Value,
+                        1, "", new Uri(Properties.Settings.Default.CICDtoMedCICUri1), new Uri(Properties.Settings.Default.CICDtoMedCICUri2));
+            }
             if (!cicdDevicve.IsRunnign())
             {
+                btnStop_Click(sender, e);
                 return;
             }
             #endregion
@@ -82,9 +102,21 @@ namespace WebSocketS
 
         }
 
-        private void lblFrequency_Click(object sender, EventArgs e)
+        private void btnStop_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void chkUseFile_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkUseFile.Checked)
+            {
+                chkUseFile.Enabled = true;
+            }
+            else
+            {
+                chkUseFile.Enabled = false;
+            }
         }
     }
 
