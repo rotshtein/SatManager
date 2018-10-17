@@ -9,5 +9,8 @@ namespace WebSocketS
     public interface IguiInterface
     {
         void ShowMessage(string msg);
+        void UpdateCicdState(bool SeperationState);
+        void UpdateCicdCounter(ulong Cic1Data, ulong Cic2Data, ulong Cic1Errors, ulong Cic2Errors );
+
     }
 }

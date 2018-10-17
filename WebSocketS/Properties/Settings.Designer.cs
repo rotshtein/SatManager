@@ -79,7 +79,7 @@ namespace WebSocketS.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("127.0.0.1:8887")]
+        [global::System.Configuration.DefaultSettingValueAttribute("ws://176.149.163.161:7000")]
         public string CICCDUrl {
             get {
                 return ((string)(this["CICCDUrl"]));

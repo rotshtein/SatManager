@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using WebSocketSharp;
 
@@ -29,6 +30,8 @@ namespace WebSocketS
             
         }
 
+
+
         private bool IsSAToP()
         {
             return tabOutput.SelectedTab == tabOutput.TabPages["tabSAToP"];
@@ -36,7 +39,6 @@ namespace WebSocketS
 
         private async void btnSend_Click(object sender, EventArgs e)
         {
-            //c.Send(DateTime.Now.ToString());
             btnStart.Enabled = false;
             if (numE1Port1.Value == numE1Port2.Value)
             {
@@ -62,13 +64,13 @@ namespace WebSocketS
             #region Start the CICD and wait it to be in running state
             if (cicdDevicve != null)
             {
-                await cicdDevicve.Stop();
+               // await cicdDevicve.Stop();
             }
             cicdDevicve = new CICDDevice(new Uri(Properties.Settings.Default.CICCDUrl), this);
             if (chkUseFile.Checked)
             {
                 await cicdDevicve.Start(txtInputFilename.Text, (float)numFrequency.Value, (float)numLBandFreq.Value, (float)numUsefulBw.Value, (float)numGain.Value,
-                        1, "", new Uri(Properties.Settings.Default.CICDtoMedCICUri1), new Uri(Properties.Settings.Default.CICDtoMedCICUri2));
+                        (int)numSno.Value, "", new Uri(Properties.Settings.Default.CICDtoMedCICUri1), new Uri(Properties.Settings.Default.CICDtoMedCICUri2));
             }
             else
             {
@@ -97,13 +99,14 @@ namespace WebSocketS
             #endregion
         }
 
-        public void ShowMessage(string msg)
-        {
-
-        }
+       
 
         private void btnStop_Click(object sender, EventArgs e)
         {
+            if (cicdDevicve != null)
+            {
+                cicdDevicve.stopCICD();
+            }
 
         }
 
@@ -118,6 +121,68 @@ namespace WebSocketS
                 chkUseFile.Enabled = false;
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (cicdDevicve != null)
+            {
+                cicdDevicve.getReport();
+            }
+        }
+
+        #region GuiInterface
+        public void ShowMessage(string msg)
+        {
+            if (txtStatus.InvokeRequired)
+            {
+                txtStatus.Invoke(new MethodInvoker(() => { ShowMessage(msg); }));
+            }
+            else
+            {
+                txtStatus.Text = msg +Environment.NewLine + txtStatus.Text;
+            }
+        }
+
+        public void UpdateCicdState(bool SeperationState)
+        {
+             if (txtCiC1Data.InvokeRequired)
+            {
+                txtCiC1Data.Invoke(new MethodInvoker(() => { UpdateCicdState(SeperationState); }));
+            }
+            else
+            {
+                if (SeperationState)
+                {
+                    txtCiC1Data.BackColor = Color.Green;
+                    txtCiC2Data.BackColor = Color.Green;
+                    txtCiC1Error.BackColor = Color.Green;
+                    txtCiC2Error.BackColor = Color.Green;
+                }
+                else
+                {
+                    txtCiC1Data.BackColor = Color.Red;
+                    txtCiC2Data.BackColor = Color.Red;
+                    txtCiC1Error.BackColor = Color.Red;
+                    txtCiC2Error.BackColor = Color.Red;
+                }
+            }
+        }
+
+        public void UpdateCicdCounter(ulong Cic1Data, ulong Cic2Data, ulong Cic1Errors, ulong Cic2Errors)
+        {
+            if (txtCiC1Data.InvokeRequired)
+            {
+                txtCiC1Data.Invoke(new MethodInvoker(() => { UpdateCicdCounter(Cic1Data, Cic2Data, Cic1Errors, Cic2Errors); }));
+            }
+            else
+            {
+                txtCiC1Data.Text = Cic1Data.ToString();
+                txtCiC2Data.Text = Cic2Data.ToString();
+                txtCiC1Error.Text = Cic1Errors.ToString();
+                txtCiC2Error.Text = Cic2Errors.ToString();
+            }
+        }
+        #endregion
     }
 
 

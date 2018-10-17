@@ -37,6 +37,10 @@
             this.numSNR = new System.Windows.Forms.NumericUpDown();
             this.lblSNR = new System.Windows.Forms.Label();
             this.grpRFInput = new System.Windows.Forms.GroupBox();
+            this.numSno = new System.Windows.Forms.NumericUpDown();
+            this.lblSno = new System.Windows.Forms.Label();
+            this.chkUseFile = new System.Windows.Forms.CheckBox();
+            this.txtInputFilename = new System.Windows.Forms.TextBox();
             this.lblGain = new System.Windows.Forms.Label();
             this.numGain = new System.Windows.Forms.NumericUpDown();
             this.numLBandFreq = new System.Windows.Forms.NumericUpDown();
@@ -56,12 +60,24 @@
             this.lblSAToP2 = new System.Windows.Forms.Label();
             this.lblSATop1 = new System.Windows.Forms.Label();
             this.btnStop = new System.Windows.Forms.Button();
-            this.txtInputFilename = new System.Windows.Forms.TextBox();
-            this.chkUseFile = new System.Windows.Forms.CheckBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.grpStatus = new System.Windows.Forms.GroupBox();
+            this.grpCouters = new System.Windows.Forms.GroupBox();
+            this.txtStatus = new System.Windows.Forms.TextBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.lblCIC1Data = new System.Windows.Forms.Label();
+            this.lblCIC2Data = new System.Windows.Forms.Label();
+            this.lblCIC1Errors = new System.Windows.Forms.Label();
+            this.lblCIC2Errors = new System.Windows.Forms.Label();
+            this.txtCiC1Data = new System.Windows.Forms.TextBox();
+            this.txtCiC1Error = new System.Windows.Forms.TextBox();
+            this.txtCiC2Data = new System.Windows.Forms.TextBox();
+            this.txtCiC2Error = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.numFrequency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSymbolRate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSNR)).BeginInit();
             this.grpRFInput.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numSno)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numGain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numLBandFreq)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUsefulBw)).BeginInit();
@@ -71,12 +87,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.numE1Port2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numE1Port1)).BeginInit();
             this.tabSAToP.SuspendLayout();
+            this.grpStatus.SuspendLayout();
+            this.grpCouters.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnStart
             // 
             this.btnStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStart.Location = new System.Drawing.Point(130, 383);
+            this.btnStart.Location = new System.Drawing.Point(128, 453);
             this.btnStart.Margin = new System.Windows.Forms.Padding(2);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(119, 35);
@@ -96,11 +115,6 @@
             this.numFrequency.Location = new System.Drawing.Point(161, 16);
             this.numFrequency.Maximum = new decimal(new int[] {
             72,
-            0,
-            0,
-            0});
-            this.numFrequency.Minimum = new decimal(new int[] {
-            68,
             0,
             0,
             0});
@@ -185,6 +199,8 @@
             // 
             // grpRFInput
             // 
+            this.grpRFInput.Controls.Add(this.numSno);
+            this.grpRFInput.Controls.Add(this.lblSno);
             this.grpRFInput.Controls.Add(this.chkUseFile);
             this.grpRFInput.Controls.Add(this.txtInputFilename);
             this.grpRFInput.Controls.Add(this.lblGain);
@@ -203,10 +219,64 @@
             this.grpRFInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpRFInput.Location = new System.Drawing.Point(12, 12);
             this.grpRFInput.Name = "grpRFInput";
-            this.grpRFInput.Size = new System.Drawing.Size(535, 179);
+            this.grpRFInput.Size = new System.Drawing.Size(535, 216);
             this.grpRFInput.TabIndex = 5;
             this.grpRFInput.TabStop = false;
             this.grpRFInput.Text = "RF Input";
+            // 
+            // numSno
+            // 
+            this.numSno.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numSno.Location = new System.Drawing.Point(161, 141);
+            this.numSno.Maximum = new decimal(new int[] {
+            25,
+            0,
+            0,
+            0});
+            this.numSno.Name = "numSno";
+            this.numSno.Size = new System.Drawing.Size(73, 22);
+            this.numSno.TabIndex = 14;
+            this.numSno.Value = new decimal(new int[] {
+            13,
+            0,
+            0,
+            0});
+            // 
+            // lblSno
+            // 
+            this.lblSno.AutoSize = true;
+            this.lblSno.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSno.Location = new System.Drawing.Point(7, 143);
+            this.lblSno.Name = "lblSno";
+            this.lblSno.Size = new System.Drawing.Size(117, 16);
+            this.lblSno.TabIndex = 13;
+            this.lblSno.Text = "SNo Estimate [db]";
+            // 
+            // chkUseFile
+            // 
+            this.chkUseFile.AutoSize = true;
+            this.chkUseFile.Checked = true;
+            this.chkUseFile.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkUseFile.Location = new System.Drawing.Point(20, 181);
+            this.chkUseFile.Name = "chkUseFile";
+            this.chkUseFile.Size = new System.Drawing.Size(85, 20);
+            this.chkUseFile.TabIndex = 12;
+            this.chkUseFile.Text = "Use File";
+            this.chkUseFile.UseVisualStyleBackColor = true;
+            // 
+            // txtInputFilename
+            // 
+            this.txtInputFilename.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtInputFilename.Location = new System.Drawing.Point(116, 179);
+            this.txtInputFilename.Name = "txtInputFilename";
+            this.txtInputFilename.Size = new System.Drawing.Size(406, 22);
+            this.txtInputFilename.TabIndex = 11;
+            this.txtInputFilename.Text = "/home/cicd/CICD/data/testDataName/TestS13.0V0.5330.533M44I11A0.50F-2000.00T0.50O2" +
+    ".50R0.35S1ns.bin";
             // 
             // lblGain
             // 
@@ -228,13 +298,18 @@
             65536});
             this.numGain.Location = new System.Drawing.Point(449, 100);
             this.numGain.Maximum = new decimal(new int[] {
-            2,
+            200,
             0,
             0,
             0});
             this.numGain.Name = "numGain";
             this.numGain.Size = new System.Drawing.Size(73, 22);
             this.numGain.TabIndex = 9;
+            this.numGain.Value = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
             // 
             // numLBandFreq
             // 
@@ -246,7 +321,7 @@
             65536});
             this.numLBandFreq.Location = new System.Drawing.Point(161, 58);
             this.numLBandFreq.Maximum = new decimal(new int[] {
-            2150,
+            3000,
             0,
             0,
             0});
@@ -301,13 +376,18 @@
             this.numUsefulBw.Name = "numUsefulBw";
             this.numUsefulBw.Size = new System.Drawing.Size(73, 22);
             this.numUsefulBw.TabIndex = 5;
+            this.numUsefulBw.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // grpE1Output
             // 
             this.grpE1Output.Controls.Add(this.tabOutput);
             this.grpE1Output.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.grpE1Output.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grpE1Output.Location = new System.Drawing.Point(12, 197);
+            this.grpE1Output.Location = new System.Drawing.Point(13, 234);
             this.grpE1Output.Name = "grpE1Output";
             this.grpE1Output.Size = new System.Drawing.Size(535, 181);
             this.grpE1Output.TabIndex = 6;
@@ -456,7 +536,7 @@
             // btnStop
             // 
             this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStop.Location = new System.Drawing.Point(299, 383);
+            this.btnStop.Location = new System.Drawing.Point(279, 453);
             this.btnStop.Margin = new System.Windows.Forms.Padding(2);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(119, 35);
@@ -465,30 +545,181 @@
             this.btnStop.UseVisualStyleBackColor = true;
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
-            // txtInputFilename
+            // button1
             // 
-            this.txtInputFilename.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtInputFilename.Enabled = false;
-            this.txtInputFilename.Location = new System.Drawing.Point(116, 135);
-            this.txtInputFilename.Name = "txtInputFilename";
-            this.txtInputFilename.Size = new System.Drawing.Size(406, 22);
-            this.txtInputFilename.TabIndex = 11;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(428, 453);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(119, 35);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "Status";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // chkUseFile
+            // grpStatus
             // 
-            this.chkUseFile.AutoSize = true;
-            this.chkUseFile.Location = new System.Drawing.Point(10, 137);
-            this.chkUseFile.Name = "chkUseFile";
-            this.chkUseFile.Size = new System.Drawing.Size(85, 20);
-            this.chkUseFile.TabIndex = 12;
-            this.chkUseFile.Text = "Use File";
-            this.chkUseFile.UseVisualStyleBackColor = true;
+            this.grpStatus.Controls.Add(this.txtStatus);
+            this.grpStatus.Location = new System.Drawing.Point(554, 234);
+            this.grpStatus.Name = "grpStatus";
+            this.grpStatus.Size = new System.Drawing.Size(548, 181);
+            this.grpStatus.TabIndex = 9;
+            this.grpStatus.TabStop = false;
+            this.grpStatus.Text = "Status";
+            // 
+            // grpCouters
+            // 
+            this.grpCouters.Controls.Add(this.tableLayoutPanel1);
+            this.grpCouters.Location = new System.Drawing.Point(554, 12);
+            this.grpCouters.Name = "grpCouters";
+            this.grpCouters.Size = new System.Drawing.Size(548, 216);
+            this.grpCouters.TabIndex = 9;
+            this.grpCouters.TabStop = false;
+            this.grpCouters.Text = "Couters";
+            // 
+            // txtStatus
+            // 
+            this.txtStatus.Location = new System.Drawing.Point(6, 26);
+            this.txtStatus.Multiline = true;
+            this.txtStatus.Name = "txtStatus";
+            this.txtStatus.Size = new System.Drawing.Size(536, 138);
+            this.txtStatus.TabIndex = 0;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 4;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 43.43435F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 56.56565F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 142F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 157F));
+            this.tableLayoutPanel1.Controls.Add(this.txtCiC2Error, 3, 1);
+            this.tableLayoutPanel1.Controls.Add(this.txtCiC2Data, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.txtCiC1Error, 3, 0);
+            this.tableLayoutPanel1.Controls.Add(this.lblCIC1Data, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.lblCIC2Data, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.lblCIC1Errors, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.lblCIC2Errors, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.txtCiC1Data, 1, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 26);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(498, 54);
+            this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // lblCIC1Data
+            // 
+            this.lblCIC1Data.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblCIC1Data.AutoSize = true;
+            this.lblCIC1Data.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblCIC1Data.Location = new System.Drawing.Point(3, 0);
+            this.lblCIC1Data.Name = "lblCIC1Data";
+            this.lblCIC1Data.Size = new System.Drawing.Size(80, 27);
+            this.lblCIC1Data.TabIndex = 0;
+            this.lblCIC1Data.Text = "CIC 1 Data";
+            this.lblCIC1Data.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblCIC2Data
+            // 
+            this.lblCIC2Data.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblCIC2Data.AutoSize = true;
+            this.lblCIC2Data.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblCIC2Data.Location = new System.Drawing.Point(3, 27);
+            this.lblCIC2Data.Name = "lblCIC2Data";
+            this.lblCIC2Data.Size = new System.Drawing.Size(80, 27);
+            this.lblCIC2Data.TabIndex = 1;
+            this.lblCIC2Data.Text = "CIC 2 Data";
+            this.lblCIC2Data.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblCIC1Errors
+            // 
+            this.lblCIC1Errors.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblCIC1Errors.AutoSize = true;
+            this.lblCIC1Errors.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblCIC1Errors.Location = new System.Drawing.Point(201, 0);
+            this.lblCIC1Errors.Name = "lblCIC1Errors";
+            this.lblCIC1Errors.Size = new System.Drawing.Size(136, 27);
+            this.lblCIC1Errors.TabIndex = 2;
+            this.lblCIC1Errors.Text = "CIC 1 Errors";
+            this.lblCIC1Errors.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblCIC2Errors
+            // 
+            this.lblCIC2Errors.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblCIC2Errors.AutoSize = true;
+            this.lblCIC2Errors.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblCIC2Errors.Location = new System.Drawing.Point(201, 27);
+            this.lblCIC2Errors.Name = "lblCIC2Errors";
+            this.lblCIC2Errors.Size = new System.Drawing.Size(136, 27);
+            this.lblCIC2Errors.TabIndex = 3;
+            this.lblCIC2Errors.Text = "CIC 2 Errors";
+            this.lblCIC2Errors.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // txtCiC1Data
+            // 
+            this.txtCiC1Data.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCiC1Data.Location = new System.Drawing.Point(89, 3);
+            this.txtCiC1Data.Name = "txtCiC1Data";
+            this.txtCiC1Data.ReadOnly = true;
+            this.txtCiC1Data.Size = new System.Drawing.Size(106, 20);
+            this.txtCiC1Data.TabIndex = 4;
+            this.txtCiC1Data.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // txtCiC1Error
+            // 
+            this.txtCiC1Error.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCiC1Error.Location = new System.Drawing.Point(343, 3);
+            this.txtCiC1Error.Name = "txtCiC1Error";
+            this.txtCiC1Error.ReadOnly = true;
+            this.txtCiC1Error.Size = new System.Drawing.Size(152, 20);
+            this.txtCiC1Error.TabIndex = 5;
+            this.txtCiC1Error.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // txtCiC2Data
+            // 
+            this.txtCiC2Data.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCiC2Data.Location = new System.Drawing.Point(89, 30);
+            this.txtCiC2Data.Name = "txtCiC2Data";
+            this.txtCiC2Data.ReadOnly = true;
+            this.txtCiC2Data.Size = new System.Drawing.Size(106, 20);
+            this.txtCiC2Data.TabIndex = 6;
+            this.txtCiC2Data.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // txtCiC2Error
+            // 
+            this.txtCiC2Error.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCiC2Error.Location = new System.Drawing.Point(343, 30);
+            this.txtCiC2Error.Name = "txtCiC2Error";
+            this.txtCiC2Error.ReadOnly = true;
+            this.txtCiC2Error.Size = new System.Drawing.Size(152, 20);
+            this.txtCiC2Error.TabIndex = 7;
+            this.txtCiC2Error.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(559, 436);
+            this.ClientSize = new System.Drawing.Size(1114, 534);
+            this.Controls.Add(this.grpCouters);
+            this.Controls.Add(this.grpStatus);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.grpE1Output);
             this.Controls.Add(this.grpRFInput);
@@ -503,6 +734,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numSNR)).EndInit();
             this.grpRFInput.ResumeLayout(false);
             this.grpRFInput.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numSno)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numGain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numLBandFreq)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUsefulBw)).EndInit();
@@ -514,6 +746,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.numE1Port1)).EndInit();
             this.tabSAToP.ResumeLayout(false);
             this.tabSAToP.PerformLayout();
+            this.grpStatus.ResumeLayout(false);
+            this.grpStatus.PerformLayout();
+            this.grpCouters.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -549,6 +786,21 @@
         private System.Windows.Forms.Label lblSATop1;
         private System.Windows.Forms.CheckBox chkUseFile;
         private System.Windows.Forms.TextBox txtInputFilename;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.NumericUpDown numSno;
+        private System.Windows.Forms.Label lblSno;
+        private System.Windows.Forms.GroupBox grpStatus;
+        private System.Windows.Forms.TextBox txtStatus;
+        private System.Windows.Forms.GroupBox grpCouters;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TextBox txtCiC2Error;
+        private System.Windows.Forms.TextBox txtCiC2Data;
+        private System.Windows.Forms.TextBox txtCiC1Error;
+        private System.Windows.Forms.Label lblCIC1Data;
+        private System.Windows.Forms.Label lblCIC2Data;
+        private System.Windows.Forms.Label lblCIC1Errors;
+        private System.Windows.Forms.Label lblCIC2Errors;
+        private System.Windows.Forms.TextBox txtCiC1Data;
     }
 }
 

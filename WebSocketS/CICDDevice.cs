@@ -12,51 +12,52 @@ namespace WebSocketS
 {
     class CICDDevice : Device
     {
+        #region Members
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType.Name);
+        /*
         private static readonly ManualResetEvent configureFE_Ended = new ManualResetEvent(false);
         private static readonly ManualResetEvent identifyAndSeparate_Ended = new ManualResetEvent(false);
+        private static readonly ManualResetEvent Ack_Received = new ManualResetEvent(false);
+        */
         bool configureFE_Status = false;
+
+        #region protobuf stractures
+        FEConfStatusChanged feStatus = null;
+        bool feStatusEeceived = false;
+        SWFE_state_changed swState = null;
+        bool swStateReceived = false;
+        HWFE_state_changed hwState = null;
+        bool hwStateReceived = false;
+        MonitoringReport monitorReport = null;
+        bool monitorReportReceived = false;
+        CicStatus cisStatus = null;
+        bool cisStatusReceived = false;
+        #endregion
 
         bool gotAck = false;
         bool gotNack = false;
         string lasrCommand = "";
         bool isRunning = false;
         int Sequence = 0;
-
+        
 
 #if CICD_SIMULATOR
         Process process = null;
 #endif
-
-
-        #region Monitoring info
         bool isRunnign = false;
+        bool isSeperating = false;
+        #endregion Members
 
-
-        bool separationState;       // true: separation in process
-        double nbSymbSeparated;       // total number of separated symbols
-        double nbDataInBuffer;       // number of data in input buffer
-        double nbDataOutBuffer1;       // number of data in ouput buffer 1
-        double nbDataOutBuffer2;       // number of data in ouput buffer 2
-        double nbDataOutBuffer3;       // number of data in ouput buffer 3
-        double nbDataOutBuffer4;       // number of data in ouput buffer 4
-
-        bool synchroState1;       // true: FEC decoder of channel 1 locked
-        bool synchroState2;       // true: FEC decoder of channel 2 locked
-        double nbDecodedFrames1;       // number of decoded FEC frames of channel 1
-        double nbDecodedFrames2;       // number of decoded FEC frames of channel 2
-        double nbErrorFrames1;       // number of erroneous FEC frames of channel 1
-        double nbErrorFrames2;       // number of erroneous FEC frames of channel 2 
-#endregion
-
+        #region ctor
         public CICDDevice(Uri WebSocketUrl, IguiInterface Gui) : base(WebSocketUrl, Gui)
         {
 
         }
+        #endregion
 
         public async Task<bool> Start(string Inputfilename, float FeinHz, float Fchz, float Usefulbwhz, float Gaindb, float cncarrierdb, string sampleFile, Uri output1_url, Uri output2_url)
         {
-#if CICD_SIMULATOR
+            #if CICD_SIMULATOR
             /* 
              * Start legobits from a predefine location using a predefined file with fix address.
              * The file send 2 streams of ESC++ (553) streams to 127.0.0.1:5001 and udp://127.0.0.1:5002
@@ -83,25 +84,21 @@ namespace WebSocketS
             }
             gui.ShowMessage("CICD Simulator is running");
             return true;
-#else
-
+            #else
             try
             {
-                if (string.IsNullOrEmpty(Inputfilename))
+                if (!string.IsNullOrEmpty(Inputfilename))
                 {
                     configureSWFE(FeinHz, Fchz, Usefulbwhz, Gaindb, Inputfilename);
 
-                    /* Wait for
-                     * After configuring the frontend (SW or HW), you first get a ACK message from the server:
-                     * - OPCODE=1 (ACK)
-                     * - message_data = ack message configure SWFE or HWFE
-                     * Then you get a FE_CONFSTATUS_CHANGED message
-                     * - OPCODE=10
-                     * - message = true if successful, false otherwise
-                    */
-                    configureFE_Ended.WaitOne(3000);
+                    bool AckTimeout = ! await WaitForReceive(ref gotAck, 500);
+                    if (AckTimeout)
+                    {
+                        throw new Exception("Failed to receive configureSWFE");
+                    }
 
-                    if (configureFE_Status == false)
+                    bool StatusReportTimeout = !await WaitForReceive(ref feStatusEeceived, 1000);
+                    if (StatusReportTimeout)
                     {
                         throw new Exception("Failed to configureHWFE");
                     }
@@ -110,35 +107,35 @@ namespace WebSocketS
                 {
                     configureHWFE(FeinHz, Fchz, Usefulbwhz, Gaindb);
 
-                    /* Wait for
-                     * After configuring the frontend (SW or HW), you first get a ACK message from the server:
-                     * - OPCODE=1 (ACK)
-                     * - message_data = ack message configure SWFE or HWFE
-                     * Then you get a FE_CONFSTATUS_CHANGED message
-                     * - OPCODE=10
-                     * - message = true if successful, false otherwise
-                    */
-                    configureFE_Ended.WaitOne(3000);
+                    bool AckTimeout = !await WaitForReceive(ref gotAck, 500);
+                    if (AckTimeout)
+                    {
+                        throw new Exception("Failed to receive configureSWFE");
+                    }
 
-                    if (configureFE_Status == false)
+                    bool ConfigureTimeout = !await WaitForReceive(ref feStatusEeceived, 5000);
+                    if (ConfigureTimeout)
                     {
                         throw new Exception("Failed to configureHWFE");
                     }
                 }
                 identifyAndSeparate(output1_url, output2_url, cncarrierdb);
-
+                bool Identifytimeout = !await WaitForReceive(ref gotAck, 2000);
+                if (Identifytimeout)
+                {
+                    throw new Exception("Failed to identifyAndSeparate - Didn't get Ack");
+                }
                 /* Wait for 
                  * - either get an error message if no CICD is detected
                  * - or get the identification report message and then separation status update,
                  * and then the separator will start and report its status at each step. When started, 
                  * you can also request a status report at any time
                 */
-
-                if (!identifyAndSeparate_Ended.WaitOne(new TimeSpan(0, 5, 0))) // wait 5 minuts
+                bool MonitorReportTimeout = !await WaitForReceive(ref monitorReportReceived, 5000);
+                if (MonitorReportTimeout)
                 {
                     throw new Exception("Failed start seperation using identifyAndSeparate command");
                 }
-                isRunnign = true;
             }
             catch (Exception e)
             {
@@ -149,7 +146,7 @@ namespace WebSocketS
 #endif
         }
 
-        #region Proto Commands
+        #region Public Proto Commands
         public bool configureSWFE(float FeinHz, float Fchz, float Usefulbwhz, float Gaindb, string InputFilename)
         {
             try
@@ -157,17 +154,18 @@ namespace WebSocketS
                 configure_SWFE csw = new configure_SWFE
                 {
                     Filename = InputFilename,
+                    Inputsignaltype = InputType.Complex,
                     Inputsignalsubtypefromfile = SubType.TypeFloat,
-                    Feinhz = FeinHz,
-                    Fchz = Fchz,
-                    Usefulbwhz = Usefulbwhz,
+                    Feinhz = 2500000,
+                    Fchz = 1,
+                    Usefulbwhz = Usefulbwhz * 1000000,
                     Gaindb = Gaindb,
                     Wideband = false,
                 };
 
                 Header h = new Header { Sequence = Sequence++, Opcode = OPCODE.ConfigureSwfe, MessageData = MessageExtensions.ToByteString(csw) };
                 lasrCommand = "configure_SWFE";
-                Send(MessageExtensions.ToByteArray(h));
+                Send(h);
                 log.Debug("configureSWFE sent");
                 return true;
             }
@@ -193,7 +191,7 @@ namespace WebSocketS
 
                 Header h = new Header { Sequence = Sequence++, Opcode = OPCODE.ConfigureHwfe, MessageData = MessageExtensions.ToByteString(chw) };
                 lasrCommand = "configure_HWFE";
-                Send(MessageExtensions.ToByteArray(h));
+                Send(h);
                 log.Debug("configureHWFE sent");
                 return true;
             }
@@ -209,7 +207,7 @@ namespace WebSocketS
             try
             {
                 Header h = new Header { Sequence = Sequence++, Opcode = OPCODE.StartFe };
-                Send(MessageExtensions.ToByteArray(h));
+                Send(h);
                 lasrCommand = "startFE";
                 log.Debug("startFE sent");
                 return true;
@@ -226,7 +224,7 @@ namespace WebSocketS
             try
             {
                 Header h = new Header { Sequence = Sequence++, Opcode = OPCODE.StopFe };
-                Send(MessageExtensions.ToByteArray(h));
+                Send(h);
                 lasrCommand = "stopFE";
                 log.Debug("stopFE sent");
                 return true;
@@ -243,7 +241,7 @@ namespace WebSocketS
             try
             {
                 Header h = new Header { Sequence = Sequence++, Opcode = OPCODE.Stop };
-                Send(MessageExtensions.ToByteArray(h));
+                Send(h);
                 lasrCommand = "stop";
                 log.Debug("Stop sent");
                 return true;
@@ -265,7 +263,7 @@ namespace WebSocketS
                 };
 
                 Header h = new Header { Sequence = Sequence++, Opcode = OPCODE.Identify, MessageData = MessageExtensions.ToByteString(id) };
-                Send(MessageExtensions.ToByteArray(h));
+                Send(h);
                 lasrCommand = "identify";
                 log.Debug("identify sent");
                 return true;
@@ -284,12 +282,13 @@ namespace WebSocketS
                 IdentifyAndSeparate id = new IdentifyAndSeparate
                 {
                     Cncarrierdb = Carrierdb,
-                    Output1Url = Output1url.ToString(),
-                    Output2Url = Output2url.ToString()
-                };
+                    Output1Url = Output1url.Host.ToString() + ":" + Output1url.Port.ToString(),
+                    Output2Url = Output2url.Host.ToString() + ":" + Output2url.Port.ToString(),
+                    Output = outputType.ToUdp,
 
-                Header h = new Header { Sequence = Sequence++, Opcode = OPCODE.Identify, MessageData = MessageExtensions.ToByteString(id) };
-                Send(MessageExtensions.ToByteArray(h));
+                };
+                Header h = new Header { Sequence = Sequence++, Opcode = OPCODE.IdentifyAndSeparate, MessageData = MessageExtensions.ToByteString(id) };
+                Send(h);
                 lasrCommand = "Identify And Separate";
                 log.Debug("IdentifyAndSeparate sent");
                 return true;
@@ -306,7 +305,7 @@ namespace WebSocketS
             try
             {
                 Header h = new Header { Sequence = Sequence++, Opcode = OPCODE.RequestMonitoringReport };
-                Send(MessageExtensions.ToByteArray(h));
+                Send(h);
                 lasrCommand = "getReporte";
                 log.Debug("getReport sent");
                 return true;
@@ -317,7 +316,69 @@ namespace WebSocketS
             }
             return false;
         }
+        #endregion Proto Commands
 
+        #region public Properties
+        public bool IsSeperating()
+        {
+#if CICD_SIMULATOR
+            if (process == null)
+            {
+                return false;
+            }
+            return !process.HasExited;
+#else
+            return isSeperating;
+#endif
+        }
+        #endregion
+
+        #region Web socket communication
+
+
+        Task<bool> WaitForReceive(ref bool flag, int miliSeconds)
+        {
+            DateTime start = DateTime.Now;
+            while (!flag)
+            {
+                if ((start - DateTime.Now).TotalMilliseconds > miliSeconds)
+                {
+                    return Task.FromResult(true);
+                }
+                Thread.Sleep(10);
+            }
+            return Task.FromResult(false);
+        }
+
+        void Send(Header h)
+        {
+            gotAck = false;
+            gotNack = false;
+            gui.ShowMessage("Command " + Enum.GetName(typeof(OPCODE),h.Opcode) + " sent");
+            switch (h.Opcode)
+            {
+                case OPCODE.RequestMonitoringReport:
+                case OPCODE.IdentifyAndSeparate:
+                    monitorReportReceived = false;
+                    break;
+
+                case OPCODE.ConfigureHwfe:
+                    hwStateReceived = false;
+                    break;
+
+                case OPCODE.ConfigureSwfe:
+                    swStateReceived = false;
+                    break;
+
+                case OPCODE.StartFe:
+                    feStatusEeceived = false;
+                    break;
+            }
+            client.Send(MessageExtensions.ToByteArray(h));
+        }
+        #endregion Web socket communication
+
+        #region override methods
         public override void OnReceive(Client sender, byte[] data)
         {
             try
@@ -338,42 +399,39 @@ namespace WebSocketS
                             log.Warn("got Nack from the server");
                             break;
 
+
+                        case OPCODE.FeConfstatusChanged:
+                            feStatus = FEConfStatusChanged.Parser.ParseFrom(h.MessageData);
+                            feStatusEeceived = true;
+                            break;
+
                         case OPCODE.SwfeStateChanged:
-                            SWFE_state_changed sw_state = SWFE_state_changed.Parser.ParseFrom(h.MessageData);
-                            configureFE_Status = sw_state.ReturnCode != 0;
+                            swState = SWFE_state_changed.Parser.ParseFrom(h.MessageData);
+                            configureFE_Status = swState.ReturnCode != 0;
                             gui.ShowMessage("CICD: SwfeStateChanged status is " + this.isRunnign.ToString());
-                            configureFE_Ended.Set();
+                            swStateReceived = true;
                             break;
 
                         case OPCODE.HwfeStateChanged:
-                            HWFE_state_changed hw_state = HWFE_state_changed.Parser.ParseFrom(h.MessageData);
-                            configureFE_Status = hw_state.ReturnCode != 0;
+                            HWFE_state_changed hwState = HWFE_state_changed.Parser.ParseFrom(h.MessageData);
+                            configureFE_Status = hwState.ReturnCode != 0;
                             gui.ShowMessage("CICD: HwfeStateChanged status is " + this.isRunnign.ToString());
-                            configureFE_Ended.Set();
+                            hwStateReceived = true;
                             break;
 
                         case OPCODE.MonitoringReport:
-                            MonitoringReport mr = MonitoringReport.Parser.ParseFrom(h.MessageData);
-                            this.separationState = mr.SeparationState;
-                            this.nbSymbSeparated = mr.NbSymbSeparated;
-                            this.nbDataInBuffer = mr.NbDataInBuffer;
-                            this.nbDataOutBuffer1 = mr.NbDataOutBuffer1;
-                            this.nbDataOutBuffer2 = mr.NbDataOutBuffer2;
-                            this.nbDataOutBuffer3 = mr.NbDataOutBuffer3;
-                            this.nbDataOutBuffer4 = mr.NbDataOutBuffer4;
+                            monitorReport = MonitoringReport.Parser.ParseFrom(h.MessageData);
+                            monitorReportReceived = true;
+                            isRunnign = monitorReport.FEstatus;
+                            isSeperating = monitorReport.SeparationState;
 
-                            this.synchroState1 = mr.SynchroState1;
-                            this.synchroState2 = mr.SynchroState2;
-                            this.nbDecodedFrames1 = mr.NbDecodedFrames1;
-                            this.nbDecodedFrames2 = mr.NbDecodedFrames2;
-                            this.nbErrorFrames1 = mr.NbErrorFrames1;
-                            this.nbErrorFrames2 = mr.NbErrorFrames2;
-
-                            gui.ShowMessage("CICD: HwfeStateChanged separationState is " + this.separationState.ToString());
+                            gui.UpdateCicdCounter(monitorReport.NbDecodedFrames1, monitorReport.NbDecodedFrames2,
+                                monitorReport.NbErrorFrames1, monitorReport.NbErrorFrames2);
                             break;
 
                         case OPCODE.IdentificationReport:
-                            identifyAndSeparate_Ended.Set();
+                            cisStatus = CicStatus.Parser.ParseFrom(h.MessageData);
+                            cisStatusReceived = true;
                             break;
                         default:
                             break;
@@ -388,17 +446,15 @@ namespace WebSocketS
             }
         }
 
-#endregion
-
         public override async Task<bool> Stop()
         {
-#if CICD_SIMULATOR
+        #if CICD_SIMULATOR
              /*
              * Stop the legobits if it is running
              * 
              */
 
-                if (process != null)
+                            if (process != null)
             {
                 process.Kill();
                 log.Debug("Killing the CICD simulator");
@@ -408,7 +464,7 @@ namespace WebSocketS
                 log.Debug("Try to illing the CICD simulator when process is null");
             }
 
-#else
+        #else
             if (stopCICD())
             {
                 gui.ShowMessage("CICD is stopping");
@@ -418,31 +474,22 @@ namespace WebSocketS
                 gui.ShowMessage("CICD : Got error while tring to stop");
                 return false;
             }
-#endif
+        #endif
             return true;
         }
 
         public override bool IsRunnign()
         {
-#if CICD_SIMULATOR
+        #if CICD_SIMULATOR
             if (process == null)
             {
                 return false;
             }
             return !process.HasExited;
-#else
+        #else
             return isRunning;
-#endif
+        #endif
         }
-
-        void Send(byte[] buffer)
-        {
-            gotAck = false;
-            gotNack = false;
-            client.Send(buffer);
-        }
-
-        bool GotAck { get { return gotAck; } }
-        bool GotNack { get { return gotNack; } }
+        #endregion
     }
 }
