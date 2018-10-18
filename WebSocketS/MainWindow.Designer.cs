@@ -114,7 +114,7 @@
             65536});
             this.numFrequency.Location = new System.Drawing.Point(161, 16);
             this.numFrequency.Maximum = new decimal(new int[] {
-            72,
+            3000,
             0,
             0,
             0});
@@ -122,7 +122,7 @@
             this.numFrequency.Size = new System.Drawing.Size(73, 22);
             this.numFrequency.TabIndex = 1;
             this.numFrequency.Value = new decimal(new int[] {
-            70,
+            2500,
             0,
             0,
             0});
@@ -325,16 +325,11 @@
             0,
             0,
             0});
-            this.numLBandFreq.Minimum = new decimal(new int[] {
-            950,
-            0,
-            0,
-            0});
             this.numLBandFreq.Name = "numLBandFreq";
             this.numLBandFreq.Size = new System.Drawing.Size(73, 22);
             this.numLBandFreq.TabIndex = 7;
             this.numLBandFreq.Value = new decimal(new int[] {
-            950,
+            1,
             0,
             0,
             0});
@@ -574,6 +569,7 @@
             this.txtStatus.Name = "txtStatus";
             this.txtStatus.Size = new System.Drawing.Size(536, 138);
             this.txtStatus.TabIndex = 0;
+            this.txtStatus.TextChanged += new System.EventHandler(this.txtStatus_TextChanged);
             // 
             // grpCouters
             // 

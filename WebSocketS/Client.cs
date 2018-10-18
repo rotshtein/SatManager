@@ -67,7 +67,7 @@ namespace WebSocketS
 
         void LoggerAction(LogData data, string msg)
         {
-            log.Debug(this.uri.ToString() + ": " + data.Message);
+            //log.Debug(this.uri.ToString() + ": " + data.Message);
         }
         
         public void Send(String msg)
@@ -75,7 +75,7 @@ namespace WebSocketS
             if (ws.ReadyState == WebSocketState.Open)
             {
                 ws.Send(msg);
-                log.Debug(this.uri.ToString()+ " Message sent");
+                log.Debug(ws.ToString()+ " Message sent");
             }
         }
 
@@ -84,7 +84,7 @@ namespace WebSocketS
             if (ws.ReadyState == WebSocketState.Open)
             {
                 ws.Send(data);
-                log.Debug(this.uri.ToString() + " Message sent");
+                log.Debug(ws.ToString() + " Message sent");
             }
         }
 
@@ -94,17 +94,17 @@ namespace WebSocketS
             switch(e.Type)
             {
                 case Opcode.Text:
-                    log.Debug(this.uri.ToString() + " Text message received");
+                    log.Debug(e.ToString() + " Text message received");
                     ReceviedString?.Invoke(this, e.Data);
                     break;
 
                 case Opcode.Binary:
-                    log.Debug(this.uri.ToString() + " Binary message received");
+                    log.Debug(e.ToString() + " Binary message received");
                     ReceviedData?.Invoke(this, e.RawData);
                     break;
 
                 default:
-                    log.Error(this.uri.ToString() + " Unknown message received");
+                    log.Error(e.ToString() + " Unknown message received");
                     break;
             }
         }

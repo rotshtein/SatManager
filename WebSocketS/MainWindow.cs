@@ -2,6 +2,7 @@
 using System;
 using System.Drawing;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -71,12 +72,14 @@ namespace WebSocketS
             #endregion
 
             #region CICD
-            bool cicdStarted = await StartCICD();
+            StartCICD();
+            /*
+            bool cicdStarted = StartCICD();
             if (!cicdStarted)
             {
                 log.Info("Failed to start CICD");
                 //btnStop_Click(sender, e);
-            }
+            }*/
             #endregion
 
             #region Mediation
@@ -109,8 +112,9 @@ namespace WebSocketS
         {
             if (cicdDevicve != null)
             {
-                cicdDevicve.stopCICD();
+                cicdDevicve.Stop();
             }
+            btnStart.Enabled = true;
         }
 
         private void chkUseFile_CheckedChanged(object sender, EventArgs e)
@@ -144,7 +148,7 @@ namespace WebSocketS
         #endregion
 
         #region Start the CICD and wait it to be in running state
-        private async Task<bool> StartCICD()
+        private void StartCICD()
         {
             log.Debug("Starting CICD");
 
@@ -155,27 +159,29 @@ namespace WebSocketS
             }
 
             cicdDevicve = new CICDDevice(new Uri(Properties.Settings.Default.CICCDUrl), this);
+            //Thread t = new Thread(new ThreadStart(cicdDevicve.StartInThread));
+
             try
             {
                 if (chkUseFile.Checked)
                 {
                     log.Debug("Starting CICD - Software FE");
-                    await cicdDevicve.Start(txtInputFilename.Text, (float)numFrequency.Value, (float)numLBandFreq.Value, (float)numUsefulBw.Value, (float)numGain.Value,
+                    cicdDevicve.Start(txtInputFilename.Text, (float)numFrequency.Value, (float)numLBandFreq.Value, (float)numUsefulBw.Value, (float)numGain.Value,
                             (int)numSno.Value, "", new Uri(Properties.Settings.Default.CICDtoMedCICUri1), new Uri(Properties.Settings.Default.CICDtoMedCICUri2));
                 }
                 else
                 {
                     log.Debug("Starting CICD - Hardware FE");
-                    await cicdDevicve.Start(null, (float)numFrequency.Value, (float)numLBandFreq.Value, (float)numUsefulBw.Value, (float)numGain.Value,
+                    cicdDevicve.Start(null, (float)numFrequency.Value, (float)numLBandFreq.Value, (float)numUsefulBw.Value, (float)numGain.Value,
                             1, "", new Uri(Properties.Settings.Default.CICDtoMedCICUri1), new Uri(Properties.Settings.Default.CICDtoMedCICUri2));
                 }
             }
             catch (Exception ex)
             {
                 log.Error("Failed to start CICD", ex);
-                return await Task.FromResult(false);
+                
             }
-            return await Task.FromResult(false); 
+            
         }
         #endregion
         
@@ -186,7 +192,7 @@ namespace WebSocketS
             {
                 log.Debug("Starting Mediation");
                 medationDevice = new MediationDevice(new Uri(Properties.Settings.Default.MedCicUrl), this);
-                await medationDevice.Start(new Uri(Properties.Settings.Default.CICDtoMedCICUri1), new Uri(Properties.Settings.Default.CICDtoMedCICUri2),
+                medationDevice.Start(new Uri(Properties.Settings.Default.CICDtoMedCICUri1), new Uri(Properties.Settings.Default.CICDtoMedCICUri2),
                                            new Uri(Properties.Settings.Default.MedCictoCygnusUrl1), new Uri(Properties.Settings.Default.MedCictoCygnusUrl2));
             }
             catch (Exception ex)
@@ -270,5 +276,10 @@ namespace WebSocketS
             }
         }
         #endregion
+
+        private void txtStatus_TextChanged(object sender, EventArgs e)
+        {
+            txtStatus.Text = string.Empty;
+        }
     }
 }

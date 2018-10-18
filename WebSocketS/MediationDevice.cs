@@ -4,12 +4,17 @@ using System;
 using System.Reflection;
 using System.Threading.Tasks;
 using Google.Protobuf;
+using System.Threading;
 
 namespace WebSocketS
 {
     class MediationDevice : Device
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType.Name);
+        Thread startThread = null;
+        Thread monitorThread = null;
+        bool runMonitor = false;
+
         bool gotAck = false;
         bool gotNack = false;
         string lastCommand = "";
@@ -20,7 +25,31 @@ namespace WebSocketS
             log.Debug("Mediation intilized");
         }
 
-        public async Task<bool> Start(Uri input1_url, Uri input2_url, Uri output1_url, Uri output2_url)
+        public void Start(Uri input1_url, Uri input2_url, Uri output1_url, Uri output2_url)
+        {
+            startThread = new Thread(
+               unused =>
+                   StartThread(input1_url, input2_url, output1_url, output2_url));
+            StartMonitor();
+        }
+
+        public override void MonitorThread()
+        {
+            log.Debug("Monitor theard started");
+            while (runMonitor)
+            {
+                try
+                {
+                    Thread.Sleep(200);
+                }
+                catch (Exception ex)
+                {
+                    log.Error("Error during monitoring", ex);
+                }
+            }
+        }
+
+        public void StartThread(Uri input1_url, Uri input2_url, Uri output1_url, Uri output2_url)
         {
             try
             {
@@ -44,7 +73,6 @@ namespace WebSocketS
                 log.Error("Mediation error during auto start", e);
                 isRunning = false;
             }
-            return await Task.FromResult(isRunning);
         }
 
         public override async Task<bool> Stop()

@@ -4,12 +4,17 @@ using System;
 using System.Threading.Tasks;
 using Google.Protobuf;
 using System.Reflection;
+using System.Threading;
 
 namespace WebSocketS 
 {
     class CygnusDevice : Device
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType.Name);
+        Thread startThread = null;
+        Thread monitorThread = null;
+        bool runMonitor = false;
+
         bool gotAck = false;
         bool gotNack = false;
         string lastCommand = "";
@@ -20,7 +25,31 @@ namespace WebSocketS
             log.Debug("Cygnus initlized");
         }
 
-        public bool Start(Uri Orion_url, Uri input1_url, Uri input2_url, int Port1 , int Port2)
+        public void Start(Uri Orion_url, Uri input1_url, Uri input2_url, int Port1, int Port2)
+        {
+            startThread = new Thread(
+                unused =>
+                    StartThread(Orion_url, input1_url, input2_url, Port1, Port2));
+            StartMonitor();
+        }
+
+        public override void MonitorThread()
+        {
+            log.Debug("Monitor theard started");
+            while (runMonitor)
+            {
+               try
+                { 
+                    Thread.Sleep(200);
+                }
+                catch (Exception ex)
+                {
+                    log.Error("Error during monitoring", ex);
+                }
+            }
+        }
+
+        public bool StartThread(Uri Orion_url, Uri input1_url, Uri input2_url, int Port1 , int Port2)
         {
             log.Debug("Cygnus started");
             try
@@ -51,6 +80,7 @@ namespace WebSocketS
         {
             try
             {
+                StopMonitor();
                 Header h = new Header { Sequence = 0, Opcode = OPCODE.StopCmd };
                 Send(h);
                 lastCommand = "Stop Command";
