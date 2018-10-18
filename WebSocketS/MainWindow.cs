@@ -1,21 +1,25 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Drawing;
+using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using WebSocketSharp;
 
 namespace WebSocketS
 {
     public partial class MainWindow : Form, IguiInterface
     {
+        #region Members
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType.Name);
         Client c = null;
-
-        #region Deveice
+        
         // DC
         CICDDevice cicdDevicve;
         MediationDevice medationDevice;
         CygnusDevice cygnusDevice;
         #endregion
 
+        #region GUI callbacks
         public MainWindow()
         {
             InitializeComponent();
@@ -30,8 +34,6 @@ namespace WebSocketS
             
         }
 
-
-
         private bool IsSAToP()
         {
             return tabOutput.SelectedTab == tabOutput.TabPages["tabSAToP"];
@@ -39,6 +41,7 @@ namespace WebSocketS
 
         private async void btnSend_Click(object sender, EventArgs e)
         {
+            log.Debug("Starting....");
             btnStart.Enabled = false;
             if (numE1Port1.Value == numE1Port2.Value)
             {
@@ -58,56 +61,56 @@ namespace WebSocketS
                 Properties.Settings.Default.Save();
             }
 
-            #region Start DC and Wait until DC is setup and operational 
-            #endregion
-
-            #region Start the CICD and wait it to be in running state
-            if (cicdDevicve != null)
+            #region DownConverter
+            bool dcStarted = await StartDC();
+            if (!dcStarted)
             {
-               // await cicdDevicve.Stop();
-            }
-            cicdDevicve = new CICDDevice(new Uri(Properties.Settings.Default.CICCDUrl), this);
-            if (chkUseFile.Checked)
-            {
-                await cicdDevicve.Start(txtInputFilename.Text, (float)numFrequency.Value, (float)numLBandFreq.Value, (float)numUsefulBw.Value, (float)numGain.Value,
-                        (int)numSno.Value, "", new Uri(Properties.Settings.Default.CICDtoMedCICUri1), new Uri(Properties.Settings.Default.CICDtoMedCICUri2));
-            }
-            else
-            {
-                await cicdDevicve.Start(null, (float)numFrequency.Value, (float)numLBandFreq.Value, (float)numUsefulBw.Value, (float)numGain.Value,
-                        1, "", new Uri(Properties.Settings.Default.CICDtoMedCICUri1), new Uri(Properties.Settings.Default.CICDtoMedCICUri2));
-            }
-            if (!cicdDevicve.IsRunnign())
-            {
-                btnStop_Click(sender, e);
-                return;
+                log.Info("Failed to start Down Converter");
+                //btnStop_Click(sender, e);
             }
             #endregion
 
-            #region Start the Mediation
-            medationDevice = new MediationDevice(new Uri(Properties.Settings.Default.MedCicUrl), this);
-            await medationDevice.Start(new Uri(Properties.Settings.Default.CICDtoMedCICUri1), new Uri(Properties.Settings.Default.CICDtoMedCICUri2),
-                                       new Uri(Properties.Settings.Default.MedCictoCygnusUrl1), new Uri(Properties.Settings.Default.MedCictoCygnusUrl2));
+            #region CICD
+            bool cicdStarted = await StartCICD();
+            if (!cicdStarted)
+            {
+                log.Info("Failed to start CICD");
+                //btnStop_Click(sender, e);
+            }
             #endregion
 
-            #region Start the Orion (if needed)
+            #region Mediation
+            /*
+            bool mediationStarted = await StartMediation();
+            if (!mediationStarted)
+            {
+                log.Info("Failed to start Mediation");
+                //btnStop_Click(sender, e);
+            }
+            */
+            #endregion
+
+            #region Cygnus
+            /*
             if (!IsSAToP())
             {
-                cygnusDevice = new CygnusDevice(new Uri(Properties.Settings.Default.CygnusUrl), this);
-                //cygnusDevice.Start()
+                bool cygnusStarted = await StartCICD();
+                if (!cygnusStarted)
+                {
+                    log.Info("Failed to start Cygnus");
+                    //btnStop_Click(sender, e);
+                }
             }
+            */
             #endregion
         }
-
-       
-
+        
         private void btnStop_Click(object sender, EventArgs e)
         {
             if (cicdDevicve != null)
             {
                 cicdDevicve.stopCICD();
             }
-
         }
 
         private void chkUseFile_CheckedChanged(object sender, EventArgs e)
@@ -129,6 +132,90 @@ namespace WebSocketS
                 cicdDevicve.getReport();
             }
         }
+        #endregion
+
+        #region Start devices
+        #region Start DC and Wait until DC is setup and operational 
+        private async Task<bool> StartDC()
+        {
+            log.Debug("Starting Down converter - Not implemented yet");
+            return await Task.FromResult(false);
+        }
+        #endregion
+
+        #region Start the CICD and wait it to be in running state
+        private async Task<bool> StartCICD()
+        {
+            log.Debug("Starting CICD");
+
+            if (cicdDevicve != null)
+            {
+                // await cicdDevicve.Stop();
+                log.Debug("Stoping already running CICD");
+            }
+
+            cicdDevicve = new CICDDevice(new Uri(Properties.Settings.Default.CICCDUrl), this);
+            try
+            {
+                if (chkUseFile.Checked)
+                {
+                    log.Debug("Starting CICD - Software FE");
+                    await cicdDevicve.Start(txtInputFilename.Text, (float)numFrequency.Value, (float)numLBandFreq.Value, (float)numUsefulBw.Value, (float)numGain.Value,
+                            (int)numSno.Value, "", new Uri(Properties.Settings.Default.CICDtoMedCICUri1), new Uri(Properties.Settings.Default.CICDtoMedCICUri2));
+                }
+                else
+                {
+                    log.Debug("Starting CICD - Hardware FE");
+                    await cicdDevicve.Start(null, (float)numFrequency.Value, (float)numLBandFreq.Value, (float)numUsefulBw.Value, (float)numGain.Value,
+                            1, "", new Uri(Properties.Settings.Default.CICDtoMedCICUri1), new Uri(Properties.Settings.Default.CICDtoMedCICUri2));
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Failed to start CICD", ex);
+                return await Task.FromResult(false);
+            }
+            return await Task.FromResult(false); 
+        }
+        #endregion
+        
+        #region Start the Mediation
+        private async Task<bool> StartMediation()
+        {
+            try
+            {
+                log.Debug("Starting Mediation");
+                medationDevice = new MediationDevice(new Uri(Properties.Settings.Default.MedCicUrl), this);
+                await medationDevice.Start(new Uri(Properties.Settings.Default.CICDtoMedCICUri1), new Uri(Properties.Settings.Default.CICDtoMedCICUri2),
+                                           new Uri(Properties.Settings.Default.MedCictoCygnusUrl1), new Uri(Properties.Settings.Default.MedCictoCygnusUrl2));
+            }
+            catch (Exception ex)
+            {
+                log.Error("Failed to start Mediation", ex);
+                return await Task.FromResult(false); 
+            }
+            return await Task.FromResult(true);
+        }
+        #endregion
+
+        #region Start the Orion
+        private async Task<bool> StartCygnus()
+        {
+            try
+            {
+                log.Debug("Starting Cygnus");
+                cygnusDevice = new CygnusDevice(new Uri(Properties.Settings.Default.CygnusUrl), this);
+                //cygnusDevice.Start()
+            }
+            catch (Exception ex)
+            {
+                log.Error("Failed to start Cygnus", ex);
+                return await Task.FromResult(false);
+            }
+            return await Task.FromResult(true);
+        }
+        #endregion
+        #endregion
 
         #region GuiInterface
         public void ShowMessage(string msg)
@@ -184,6 +271,4 @@ namespace WebSocketS
         }
         #endregion
     }
-
-
 }

@@ -12,19 +12,20 @@ namespace WebSocketS
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType.Name);
         bool gotAck = false;
         bool gotNack = false;
-        string lasrCommand = "";
+        string lastCommand = "";
         bool isRunning = false;
 
         public CygnusDevice(Uri WebSocketUrl, IguiInterface Gui) : base(WebSocketUrl, Gui)
         {
-
+            log.Debug("Cygnus initlized");
         }
 
         public bool Start(Uri Orion_url, Uri input1_url, Uri input2_url, int Port1 , int Port2)
         {
+            log.Debug("Cygnus started");
             try
             {
-                lasrCommand = "Start Command";
+                lastCommand = "Start Command";
                 StartCommand sc = new StartCommand
                 {
                     BoxUrl = Orion_url.ToString(),
@@ -34,7 +35,7 @@ namespace WebSocketS
                     Input2Url = input2_url.ToString()
                 };
                 Header h = new Header { Sequence = 0, Opcode = OPCODE.StartCmd, MessageData = MessageExtensions.ToByteString(sc) };
-                Send(MessageExtensions.ToByteArray(h));
+                Send(h);
                 log.Debug("Cygnus started");
                 isRunning = true;
             }
@@ -51,17 +52,17 @@ namespace WebSocketS
             try
             {
                 Header h = new Header { Sequence = 0, Opcode = OPCODE.StopCmd };
-                Send(MessageExtensions.ToByteArray(h));
-                lasrCommand = "Stop Command";
+                Send(h);
+                lastCommand = "Stop Command";
                 log.Debug("Cygnus stoped");
                 isRunning = false;
-                return true;
+                return await Task.FromResult(true);
             }
             catch (Exception e)
             {
                 log.Error("Failed to stop", e);
             }
-            return false;
+            return await Task.FromResult(false);
         }
 
         public override bool IsRunnign()
@@ -80,12 +81,13 @@ namespace WebSocketS
                     {
                         case OPCODE.Ack:
                             gotAck = true;
-                            gui.ShowMessage("Cygnus: " + lasrCommand + " pass");
+                            gui.ShowMessage("Cygnus: " + lastCommand + " pass");
+                            log.Debug("Cygnus: " + lastCommand + " pass");
                             break;
 
                         case OPCODE.Nack:
                             gotNack = false;
-                            gui.ShowMessage("Cygnus: " + lasrCommand + " failed");
+                            gui.ShowMessage("Cygnus: " + lastCommand + " failed");
                             log.Warn("got Nack from the server");
                             break;
 
@@ -94,6 +96,7 @@ namespace WebSocketS
                             if (sm != null)
                             {
                                 gui.ShowMessage("Cygnus:" + sm.Message);
+                                log.Debug("Cygnus:" + sm.Message);
                             }
                             break;
                     }
@@ -107,11 +110,13 @@ namespace WebSocketS
             }
         }
 
-        void Send(byte[] buffer)
+        void Send(Header h)
         {
+            gui.ShowMessage("Command " + Enum.GetName(typeof(OPCODE), h.Opcode) + " sent");
+            log.Debug("Command " + Enum.GetName(typeof(OPCODE), h.Opcode) + " sent");
             gotAck = false;
             gotNack = false;
-            client.Send(buffer);
+            client.Send(MessageExtensions.ToByteArray(h));
         }
     }
 }

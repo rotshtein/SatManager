@@ -14,11 +14,6 @@ namespace WebSocketS
     {
         #region Members
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType.Name);
-        /*
-        private static readonly ManualResetEvent configureFE_Ended = new ManualResetEvent(false);
-        private static readonly ManualResetEvent identifyAndSeparate_Ended = new ManualResetEvent(false);
-        private static readonly ManualResetEvent Ack_Received = new ManualResetEvent(false);
-        */
         bool configureFE_Status = false;
 
         #region protobuf stractures
@@ -51,13 +46,14 @@ namespace WebSocketS
         #region ctor
         public CICDDevice(Uri WebSocketUrl, IguiInterface Gui) : base(WebSocketUrl, Gui)
         {
-
+            log.Debug("Cicd device initialized. [" + WebSocketUrl.ToString() + "]");
         }
         #endregion
 
         public async Task<bool> Start(string Inputfilename, float FeinHz, float Fchz, float Usefulbwhz, float Gaindb, float cncarrierdb, string sampleFile, Uri output1_url, Uri output2_url)
         {
-            #if CICD_SIMULATOR
+            log.Debug("Cicd device start");
+#if CICD_SIMULATOR
             /* 
              * Start legobits from a predefine location using a predefined file with fix address.
              * The file send 2 streams of ESC++ (553) streams to 127.0.0.1:5001 and udp://127.0.0.1:5002
@@ -84,7 +80,7 @@ namespace WebSocketS
             }
             gui.ShowMessage("CICD Simulator is running");
             return true;
-            #else
+#else
             try
             {
                 if (!string.IsNullOrEmpty(Inputfilename))
@@ -355,6 +351,7 @@ namespace WebSocketS
             gotAck = false;
             gotNack = false;
             gui.ShowMessage("Command " + Enum.GetName(typeof(OPCODE),h.Opcode) + " sent");
+            log.Debug("Command " + Enum.GetName(typeof(OPCODE), h.Opcode) + " sent");
             switch (h.Opcode)
             {
                 case OPCODE.RequestMonitoringReport:

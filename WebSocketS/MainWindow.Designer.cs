@@ -62,17 +62,17 @@
             this.btnStop = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.grpStatus = new System.Windows.Forms.GroupBox();
-            this.grpCouters = new System.Windows.Forms.GroupBox();
             this.txtStatus = new System.Windows.Forms.TextBox();
+            this.grpCouters = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.txtCiC2Error = new System.Windows.Forms.TextBox();
+            this.txtCiC2Data = new System.Windows.Forms.TextBox();
+            this.txtCiC1Error = new System.Windows.Forms.TextBox();
             this.lblCIC1Data = new System.Windows.Forms.Label();
             this.lblCIC2Data = new System.Windows.Forms.Label();
             this.lblCIC1Errors = new System.Windows.Forms.Label();
             this.lblCIC2Errors = new System.Windows.Forms.Label();
             this.txtCiC1Data = new System.Windows.Forms.TextBox();
-            this.txtCiC1Error = new System.Windows.Forms.TextBox();
-            this.txtCiC2Data = new System.Windows.Forms.TextBox();
-            this.txtCiC2Error = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.numFrequency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSymbolRate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSNR)).BeginInit();
@@ -567,6 +567,14 @@
             this.grpStatus.TabStop = false;
             this.grpStatus.Text = "Status";
             // 
+            // txtStatus
+            // 
+            this.txtStatus.Location = new System.Drawing.Point(6, 26);
+            this.txtStatus.Multiline = true;
+            this.txtStatus.Name = "txtStatus";
+            this.txtStatus.Size = new System.Drawing.Size(536, 138);
+            this.txtStatus.TabIndex = 0;
+            // 
             // grpCouters
             // 
             this.grpCouters.Controls.Add(this.tableLayoutPanel1);
@@ -577,21 +585,13 @@
             this.grpCouters.TabStop = false;
             this.grpCouters.Text = "Couters";
             // 
-            // txtStatus
-            // 
-            this.txtStatus.Location = new System.Drawing.Point(6, 26);
-            this.txtStatus.Multiline = true;
-            this.txtStatus.Name = "txtStatus";
-            this.txtStatus.Size = new System.Drawing.Size(536, 138);
-            this.txtStatus.TabIndex = 0;
-            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 4;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 43.43435F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 56.56565F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 142F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 157F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 158F));
             this.tableLayoutPanel1.Controls.Add(this.txtCiC2Error, 3, 1);
             this.tableLayoutPanel1.Controls.Add(this.txtCiC2Data, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.txtCiC1Error, 3, 0);
@@ -607,6 +607,42 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(498, 54);
             this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // txtCiC2Error
+            // 
+            this.txtCiC2Error.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCiC2Error.Location = new System.Drawing.Point(342, 30);
+            this.txtCiC2Error.Name = "txtCiC2Error";
+            this.txtCiC2Error.ReadOnly = true;
+            this.txtCiC2Error.Size = new System.Drawing.Size(153, 20);
+            this.txtCiC2Error.TabIndex = 7;
+            this.txtCiC2Error.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // txtCiC2Data
+            // 
+            this.txtCiC2Data.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCiC2Data.Location = new System.Drawing.Point(89, 30);
+            this.txtCiC2Data.Name = "txtCiC2Data";
+            this.txtCiC2Data.ReadOnly = true;
+            this.txtCiC2Data.Size = new System.Drawing.Size(105, 20);
+            this.txtCiC2Data.TabIndex = 6;
+            this.txtCiC2Data.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // txtCiC1Error
+            // 
+            this.txtCiC1Error.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCiC1Error.Location = new System.Drawing.Point(342, 3);
+            this.txtCiC1Error.Name = "txtCiC1Error";
+            this.txtCiC1Error.ReadOnly = true;
+            this.txtCiC1Error.Size = new System.Drawing.Size(153, 20);
+            this.txtCiC1Error.TabIndex = 5;
+            this.txtCiC1Error.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // lblCIC1Data
             // 
@@ -643,7 +679,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCIC1Errors.AutoSize = true;
             this.lblCIC1Errors.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblCIC1Errors.Location = new System.Drawing.Point(201, 0);
+            this.lblCIC1Errors.Location = new System.Drawing.Point(200, 0);
             this.lblCIC1Errors.Name = "lblCIC1Errors";
             this.lblCIC1Errors.Size = new System.Drawing.Size(136, 27);
             this.lblCIC1Errors.TabIndex = 2;
@@ -657,7 +693,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCIC2Errors.AutoSize = true;
             this.lblCIC2Errors.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblCIC2Errors.Location = new System.Drawing.Point(201, 27);
+            this.lblCIC2Errors.Location = new System.Drawing.Point(200, 27);
             this.lblCIC2Errors.Name = "lblCIC2Errors";
             this.lblCIC2Errors.Size = new System.Drawing.Size(136, 27);
             this.lblCIC2Errors.TabIndex = 3;
@@ -672,45 +708,9 @@
             this.txtCiC1Data.Location = new System.Drawing.Point(89, 3);
             this.txtCiC1Data.Name = "txtCiC1Data";
             this.txtCiC1Data.ReadOnly = true;
-            this.txtCiC1Data.Size = new System.Drawing.Size(106, 20);
+            this.txtCiC1Data.Size = new System.Drawing.Size(105, 20);
             this.txtCiC1Data.TabIndex = 4;
             this.txtCiC1Data.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // txtCiC1Error
-            // 
-            this.txtCiC1Error.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCiC1Error.Location = new System.Drawing.Point(343, 3);
-            this.txtCiC1Error.Name = "txtCiC1Error";
-            this.txtCiC1Error.ReadOnly = true;
-            this.txtCiC1Error.Size = new System.Drawing.Size(152, 20);
-            this.txtCiC1Error.TabIndex = 5;
-            this.txtCiC1Error.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // txtCiC2Data
-            // 
-            this.txtCiC2Data.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCiC2Data.Location = new System.Drawing.Point(89, 30);
-            this.txtCiC2Data.Name = "txtCiC2Data";
-            this.txtCiC2Data.ReadOnly = true;
-            this.txtCiC2Data.Size = new System.Drawing.Size(106, 20);
-            this.txtCiC2Data.TabIndex = 6;
-            this.txtCiC2Data.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // txtCiC2Error
-            // 
-            this.txtCiC2Error.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCiC2Error.Location = new System.Drawing.Point(343, 30);
-            this.txtCiC2Error.Name = "txtCiC2Error";
-            this.txtCiC2Error.ReadOnly = true;
-            this.txtCiC2Error.Size = new System.Drawing.Size(152, 20);
-            this.txtCiC2Error.TabIndex = 7;
-            this.txtCiC2Error.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // MainWindow
             // 
