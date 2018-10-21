@@ -232,7 +232,7 @@ namespace WebSocketS
             }
             else
             {
-                txtStatus.Text = msg +Environment.NewLine + txtStatus.Text;
+                txtStatus.Text = msg + Environment.NewLine + txtStatus.Text;
             }
         }
 
@@ -277,9 +277,6 @@ namespace WebSocketS
         }
         #endregion
 
-        private void txtStatus_TextChanged(object sender, EventArgs e)
-        {
-            txtStatus.Text = string.Empty;
-        }
+      
     }
 }

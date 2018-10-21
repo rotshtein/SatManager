@@ -31,6 +31,7 @@ namespace WebSocketS
         {
             runMonitor = true;
             monitorThread = new Thread(unused => MonitorThread());
+            monitorThread.Start();
         }
 
         public void StopMonitor()

@@ -61,6 +61,7 @@ namespace WebSocketS
                     StartThread(Inputfilename,
                               FeinHz, Fchz, Usefulbwhz, Gaindb, cncarrierdb,
                               sampleFile, output1_url, output2_url));
+            startThread.Start();
             StartMonitor();
         }
 
@@ -393,7 +394,8 @@ namespace WebSocketS
         bool WaitForReceive(ref bool flag, int miliSeconds)
         {
             DateTime start = DateTime.Now;
-            while ((DateTime.Now - start).TotalMilliseconds < miliSeconds)
+            //while ((DateTime.Now - start).TotalMilliseconds < miliSeconds)
+            while ((miliSeconds-= 10) > 0)
             {
                 if (flag)
                 {

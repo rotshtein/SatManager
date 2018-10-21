@@ -569,7 +569,6 @@
             this.txtStatus.Name = "txtStatus";
             this.txtStatus.Size = new System.Drawing.Size(536, 138);
             this.txtStatus.TabIndex = 0;
-            this.txtStatus.TextChanged += new System.EventHandler(this.txtStatus_TextChanged);
             // 
             // grpCouters
             // 
@@ -587,7 +586,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 43.43435F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 56.56565F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 142F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 158F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 159F));
             this.tableLayoutPanel1.Controls.Add(this.txtCiC2Error, 3, 1);
             this.tableLayoutPanel1.Controls.Add(this.txtCiC2Data, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.txtCiC1Error, 3, 0);
@@ -609,10 +608,10 @@
             this.txtCiC2Error.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCiC2Error.Location = new System.Drawing.Point(342, 30);
+            this.txtCiC2Error.Location = new System.Drawing.Point(341, 30);
             this.txtCiC2Error.Name = "txtCiC2Error";
             this.txtCiC2Error.ReadOnly = true;
-            this.txtCiC2Error.Size = new System.Drawing.Size(153, 20);
+            this.txtCiC2Error.Size = new System.Drawing.Size(154, 20);
             this.txtCiC2Error.TabIndex = 7;
             this.txtCiC2Error.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -621,7 +620,7 @@
             this.txtCiC2Data.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCiC2Data.Location = new System.Drawing.Point(89, 30);
+            this.txtCiC2Data.Location = new System.Drawing.Point(88, 30);
             this.txtCiC2Data.Name = "txtCiC2Data";
             this.txtCiC2Data.ReadOnly = true;
             this.txtCiC2Data.Size = new System.Drawing.Size(105, 20);
@@ -633,10 +632,10 @@
             this.txtCiC1Error.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCiC1Error.Location = new System.Drawing.Point(342, 3);
+            this.txtCiC1Error.Location = new System.Drawing.Point(341, 3);
             this.txtCiC1Error.Name = "txtCiC1Error";
             this.txtCiC1Error.ReadOnly = true;
-            this.txtCiC1Error.Size = new System.Drawing.Size(153, 20);
+            this.txtCiC1Error.Size = new System.Drawing.Size(154, 20);
             this.txtCiC1Error.TabIndex = 5;
             this.txtCiC1Error.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -649,7 +648,7 @@
             this.lblCIC1Data.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblCIC1Data.Location = new System.Drawing.Point(3, 0);
             this.lblCIC1Data.Name = "lblCIC1Data";
-            this.lblCIC1Data.Size = new System.Drawing.Size(80, 27);
+            this.lblCIC1Data.Size = new System.Drawing.Size(79, 27);
             this.lblCIC1Data.TabIndex = 0;
             this.lblCIC1Data.Text = "CIC 1 Data";
             this.lblCIC1Data.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -663,7 +662,7 @@
             this.lblCIC2Data.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblCIC2Data.Location = new System.Drawing.Point(3, 27);
             this.lblCIC2Data.Name = "lblCIC2Data";
-            this.lblCIC2Data.Size = new System.Drawing.Size(80, 27);
+            this.lblCIC2Data.Size = new System.Drawing.Size(79, 27);
             this.lblCIC2Data.TabIndex = 1;
             this.lblCIC2Data.Text = "CIC 2 Data";
             this.lblCIC2Data.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -675,7 +674,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCIC1Errors.AutoSize = true;
             this.lblCIC1Errors.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblCIC1Errors.Location = new System.Drawing.Point(200, 0);
+            this.lblCIC1Errors.Location = new System.Drawing.Point(199, 0);
             this.lblCIC1Errors.Name = "lblCIC1Errors";
             this.lblCIC1Errors.Size = new System.Drawing.Size(136, 27);
             this.lblCIC1Errors.TabIndex = 2;
@@ -689,7 +688,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCIC2Errors.AutoSize = true;
             this.lblCIC2Errors.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblCIC2Errors.Location = new System.Drawing.Point(200, 27);
+            this.lblCIC2Errors.Location = new System.Drawing.Point(199, 27);
             this.lblCIC2Errors.Name = "lblCIC2Errors";
             this.lblCIC2Errors.Size = new System.Drawing.Size(136, 27);
             this.lblCIC2Errors.TabIndex = 3;
@@ -701,7 +700,7 @@
             this.txtCiC1Data.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCiC1Data.Location = new System.Drawing.Point(89, 3);
+            this.txtCiC1Data.Location = new System.Drawing.Point(88, 3);
             this.txtCiC1Data.Name = "txtCiC1Data";
             this.txtCiC1Data.ReadOnly = true;
             this.txtCiC1Data.Size = new System.Drawing.Size(105, 20);
