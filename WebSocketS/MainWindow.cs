@@ -2,7 +2,6 @@
 using System;
 using System.Drawing;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -40,7 +39,7 @@ namespace WebSocketS
             return tabOutput.SelectedTab == tabOutput.TabPages["tabSAToP"];
         }
 
-        private async void btnSend_Click(object sender, EventArgs e)
+        private void btnSend_Click(object sender, EventArgs e)
         {
             log.Debug("Starting....");
             btnStart.Enabled = false;
@@ -63,7 +62,7 @@ namespace WebSocketS
             }
 
             #region DownConverter
-            bool dcStarted = await StartDC();
+            bool dcStarted = StartDC();
             if (!dcStarted)
             {
                 log.Info("Failed to start Down Converter");
@@ -136,14 +135,19 @@ namespace WebSocketS
                 cicdDevicve.getReport();
             }
         }
+
+        private void txtStatus_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            txtStatus.Text = string.Empty;
+        }
         #endregion
 
         #region Start devices
         #region Start DC and Wait until DC is setup and operational 
-        private async Task<bool> StartDC()
+        private bool StartDC()
         {
             log.Debug("Starting Down converter - Not implemented yet");
-            return await Task.FromResult(false);
+            return false;
         }
         #endregion
 
@@ -154,12 +158,14 @@ namespace WebSocketS
 
             if (cicdDevicve != null)
             {
-                // await cicdDevicve.Stop();
-                log.Debug("Stoping already running CICD");
+                if (cicdDevicve.IsRunnign())
+                {
+                    cicdDevicve.Stop();
+                    log.Debug("Stoping already running CICD");
+                }
             }
 
             cicdDevicve = new CICDDevice(new Uri(Properties.Settings.Default.CICCDUrl), this);
-            //Thread t = new Thread(new ThreadStart(cicdDevicve.StartInThread));
 
             try
             {
@@ -179,7 +185,6 @@ namespace WebSocketS
             catch (Exception ex)
             {
                 log.Error("Failed to start CICD", ex);
-                
             }
             
         }
@@ -232,7 +237,7 @@ namespace WebSocketS
             }
             else
             {
-                txtStatus.Text = msg + Environment.NewLine + txtStatus.Text;
+                txtStatus.AppendText(msg + Environment.NewLine);
             }
         }
 
@@ -275,8 +280,8 @@ namespace WebSocketS
                 txtCiC2Error.Text = Cic2Errors.ToString();
             }
         }
-        #endregion
 
-      
+        #endregion
+        
     }
 }

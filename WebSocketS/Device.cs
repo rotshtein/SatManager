@@ -1,11 +1,7 @@
 ﻿using log4net;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace WebSocketS
 {
@@ -17,7 +13,13 @@ namespace WebSocketS
         protected Client client = null;
         protected IguiInterface gui = null;
         protected bool runMonitor = false;
-        Thread monitorThread = null;
+        protected Thread monitorThread = null;
+        protected Thread startThread = null;
+
+        protected bool gotAck = false;
+        protected bool gotNack = false;
+        protected string lastCommand = "";
+        protected bool isRunning = false;
 
         public Device(Uri WebSocketServer, IguiInterface Gui)
         {
@@ -42,7 +44,7 @@ namespace WebSocketS
 
         abstract public void MonitorThread();
 
-        abstract public Task<bool> Stop();
+        abstract public bool Stop();
 
         abstract public bool IsRunnign();
 

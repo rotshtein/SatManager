@@ -3,10 +3,8 @@ using CICD;
 using Google.Protobuf;
 using log4net;
 using System;
-using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace WebSocketS
 {
@@ -505,7 +503,7 @@ namespace WebSocketS
             }
         }
 
-        public override Task<bool> Stop()
+        public override bool Stop()
         {
 #if CICD_SIMULATOR
              /*
@@ -533,17 +531,17 @@ namespace WebSocketS
                 else
                 {
                     gui.ShowMessage("CICD : Got error while tring to stop");
-                    return Task.FromResult(false);
+                    return false;
                 }
                 StopMonitor();
             }
             catch (Exception ex)
             {
                 log.Error("Failed to stop CICD", ex);
-                return Task.FromResult(false);
+                return false;
             }
 #endif
-            return Task.FromResult(true);
+            return true;
         }
 
         public override bool IsRunnign()

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Lbc4000SnmpDriver;
 using Lbc4000Logger;
 using System.Net;
@@ -50,11 +46,11 @@ namespace WebSocketS
         }
 
 
-        public override async Task<bool> Stop()
+        public override bool Stop()
         {
             if (_device != null)
             {
-                return await Task.Run(() => _device.Dispose());
+                _device.Dispose();
             }
             return true;
         }

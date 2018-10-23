@@ -95,7 +95,7 @@
             // btnStart
             // 
             this.btnStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStart.Location = new System.Drawing.Point(128, 453);
+            this.btnStart.Location = new System.Drawing.Point(415, 438);
             this.btnStart.Margin = new System.Windows.Forms.Padding(2);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(119, 35);
@@ -396,7 +396,7 @@
             this.tabOutput.Location = new System.Drawing.Point(10, 26);
             this.tabOutput.Name = "tabOutput";
             this.tabOutput.SelectedIndex = 0;
-            this.tabOutput.Size = new System.Drawing.Size(512, 142);
+            this.tabOutput.Size = new System.Drawing.Size(512, 149);
             this.tabOutput.TabIndex = 7;
             // 
             // tabE1
@@ -408,7 +408,7 @@
             this.tabE1.Location = new System.Drawing.Point(4, 24);
             this.tabE1.Name = "tabE1";
             this.tabE1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabE1.Size = new System.Drawing.Size(504, 114);
+            this.tabE1.Size = new System.Drawing.Size(504, 121);
             this.tabE1.TabIndex = 0;
             this.tabE1.Text = "E1";
             this.tabE1.UseVisualStyleBackColor = true;
@@ -531,7 +531,7 @@
             // btnStop
             // 
             this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStop.Location = new System.Drawing.Point(279, 453);
+            this.btnStop.Location = new System.Drawing.Point(566, 438);
             this.btnStop.Margin = new System.Windows.Forms.Padding(2);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(119, 35);
@@ -542,8 +542,8 @@
             // 
             // button1
             // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(428, 453);
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(207, 100);
             this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(119, 35);
@@ -555,6 +555,7 @@
             // grpStatus
             // 
             this.grpStatus.Controls.Add(this.txtStatus);
+            this.grpStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpStatus.Location = new System.Drawing.Point(554, 234);
             this.grpStatus.Name = "grpStatus";
             this.grpStatus.Size = new System.Drawing.Size(548, 181);
@@ -564,15 +565,19 @@
             // 
             // txtStatus
             // 
-            this.txtStatus.Location = new System.Drawing.Point(6, 26);
+            this.txtStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtStatus.Location = new System.Drawing.Point(6, 19);
             this.txtStatus.Multiline = true;
             this.txtStatus.Name = "txtStatus";
-            this.txtStatus.Size = new System.Drawing.Size(536, 138);
+            this.txtStatus.Size = new System.Drawing.Size(536, 156);
             this.txtStatus.TabIndex = 0;
+            this.txtStatus.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.txtStatus_MouseDoubleClick);
             // 
             // grpCouters
             // 
             this.grpCouters.Controls.Add(this.tableLayoutPanel1);
+            this.grpCouters.Controls.Add(this.button1);
+            this.grpCouters.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpCouters.Location = new System.Drawing.Point(554, 12);
             this.grpCouters.Name = "grpCouters";
             this.grpCouters.Size = new System.Drawing.Size(548, 216);
@@ -586,7 +591,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 43.43435F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 56.56565F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 142F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 159F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160F));
             this.tableLayoutPanel1.Controls.Add(this.txtCiC2Error, 3, 1);
             this.tableLayoutPanel1.Controls.Add(this.txtCiC2Data, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.txtCiC1Error, 3, 0);
@@ -608,10 +613,11 @@
             this.txtCiC2Error.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCiC2Error.Location = new System.Drawing.Point(341, 30);
+            this.txtCiC2Error.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCiC2Error.Location = new System.Drawing.Point(340, 30);
             this.txtCiC2Error.Name = "txtCiC2Error";
             this.txtCiC2Error.ReadOnly = true;
-            this.txtCiC2Error.Size = new System.Drawing.Size(154, 20);
+            this.txtCiC2Error.Size = new System.Drawing.Size(155, 22);
             this.txtCiC2Error.TabIndex = 7;
             this.txtCiC2Error.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -620,10 +626,11 @@
             this.txtCiC2Data.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCiC2Data.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCiC2Data.Location = new System.Drawing.Point(88, 30);
             this.txtCiC2Data.Name = "txtCiC2Data";
             this.txtCiC2Data.ReadOnly = true;
-            this.txtCiC2Data.Size = new System.Drawing.Size(105, 20);
+            this.txtCiC2Data.Size = new System.Drawing.Size(104, 22);
             this.txtCiC2Data.TabIndex = 6;
             this.txtCiC2Data.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -632,10 +639,11 @@
             this.txtCiC1Error.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCiC1Error.Location = new System.Drawing.Point(341, 3);
+            this.txtCiC1Error.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCiC1Error.Location = new System.Drawing.Point(340, 3);
             this.txtCiC1Error.Name = "txtCiC1Error";
             this.txtCiC1Error.ReadOnly = true;
-            this.txtCiC1Error.Size = new System.Drawing.Size(154, 20);
+            this.txtCiC1Error.Size = new System.Drawing.Size(155, 22);
             this.txtCiC1Error.TabIndex = 5;
             this.txtCiC1Error.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -645,6 +653,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCIC1Data.AutoSize = true;
+            this.lblCIC1Data.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCIC1Data.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblCIC1Data.Location = new System.Drawing.Point(3, 0);
             this.lblCIC1Data.Name = "lblCIC1Data";
@@ -659,6 +668,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCIC2Data.AutoSize = true;
+            this.lblCIC2Data.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCIC2Data.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblCIC2Data.Location = new System.Drawing.Point(3, 27);
             this.lblCIC2Data.Name = "lblCIC2Data";
@@ -673,8 +683,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCIC1Errors.AutoSize = true;
+            this.lblCIC1Errors.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCIC1Errors.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblCIC1Errors.Location = new System.Drawing.Point(199, 0);
+            this.lblCIC1Errors.Location = new System.Drawing.Point(198, 0);
             this.lblCIC1Errors.Name = "lblCIC1Errors";
             this.lblCIC1Errors.Size = new System.Drawing.Size(136, 27);
             this.lblCIC1Errors.TabIndex = 2;
@@ -687,8 +698,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCIC2Errors.AutoSize = true;
+            this.lblCIC2Errors.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCIC2Errors.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblCIC2Errors.Location = new System.Drawing.Point(199, 27);
+            this.lblCIC2Errors.Location = new System.Drawing.Point(198, 27);
             this.lblCIC2Errors.Name = "lblCIC2Errors";
             this.lblCIC2Errors.Size = new System.Drawing.Size(136, 27);
             this.lblCIC2Errors.TabIndex = 3;
@@ -700,10 +712,11 @@
             this.txtCiC1Data.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCiC1Data.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCiC1Data.Location = new System.Drawing.Point(88, 3);
             this.txtCiC1Data.Name = "txtCiC1Data";
             this.txtCiC1Data.ReadOnly = true;
-            this.txtCiC1Data.Size = new System.Drawing.Size(105, 20);
+            this.txtCiC1Data.Size = new System.Drawing.Size(104, 22);
             this.txtCiC1Data.TabIndex = 4;
             this.txtCiC1Data.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -711,10 +724,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1114, 534);
+            this.ClientSize = new System.Drawing.Size(1114, 484);
             this.Controls.Add(this.grpCouters);
             this.Controls.Add(this.grpStatus);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.grpE1Output);
             this.Controls.Add(this.grpRFInput);

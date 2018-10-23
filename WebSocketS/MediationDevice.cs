@@ -2,7 +2,6 @@
 using MedcicProto;
 using System;
 using System.Reflection;
-using System.Threading.Tasks;
 using Google.Protobuf;
 using System.Threading;
 
@@ -11,14 +10,7 @@ namespace WebSocketS
     class MediationDevice : Device
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType.Name);
-        Thread startThread = null;
-        Thread monitorThread = null;
-        bool runMonitor = false;
 
-        bool gotAck = false;
-        bool gotNack = false;
-        string lastCommand = "";
-        bool isRunning = false;
 
         public MediationDevice(Uri WebSocketUrl, IguiInterface Gui) : base (WebSocketUrl, Gui)
         {
@@ -75,7 +67,7 @@ namespace WebSocketS
             }
         }
 
-        public override async Task<bool> Stop()
+        public override bool Stop()
         {
             try
             {
@@ -85,13 +77,13 @@ namespace WebSocketS
                 lastCommand = "Stop Command";
                 log.Debug("Mediation stoped");
                 isRunning = false;
-                return await Task.FromResult(true);
+                return true;
             }
             catch (Exception e)
             {
                 log.Error("Failed to stop", e);
             }
-            return await Task.FromResult(false); 
+            return false; 
         }
 
         public override bool IsRunnign()
@@ -146,6 +138,4 @@ namespace WebSocketS
             client.Send(MessageExtensions.ToByteArray(h));
         }
     }
-
-    
 }

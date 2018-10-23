@@ -1,7 +1,6 @@
 ﻿using CygnusProto;
 using log4net;
 using System;
-using System.Threading.Tasks;
 using Google.Protobuf;
 using System.Reflection;
 using System.Threading;
@@ -11,14 +10,7 @@ namespace WebSocketS
     class CygnusDevice : Device
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType.Name);
-        Thread startThread = null;
-        Thread monitorThread = null;
-        bool runMonitor = false;
-
-        bool gotAck = false;
-        bool gotNack = false;
-        string lastCommand = "";
-        bool isRunning = false;
+        
 
         public CygnusDevice(Uri WebSocketUrl, IguiInterface Gui) : base(WebSocketUrl, Gui)
         {
@@ -76,7 +68,7 @@ namespace WebSocketS
             return isRunning;
         }
 
-        public override async Task<bool> Stop()
+        public override bool Stop()
         {
             try
             {
@@ -86,13 +78,13 @@ namespace WebSocketS
                 lastCommand = "Stop Command";
                 log.Debug("Cygnus stoped");
                 isRunning = false;
-                return await Task.FromResult(true);
+                return true;
             }
             catch (Exception e)
             {
                 log.Error("Failed to stop", e);
             }
-            return await Task.FromResult(false);
+            return false;
         }
 
         public override bool IsRunnign()
