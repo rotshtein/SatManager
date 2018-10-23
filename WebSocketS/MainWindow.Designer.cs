@@ -95,11 +95,11 @@
             // btnStart
             // 
             this.btnStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStart.Location = new System.Drawing.Point(415, 438);
+            this.btnStart.Location = new System.Drawing.Point(341, 438);
             this.btnStart.Margin = new System.Windows.Forms.Padding(2);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(119, 35);
-            this.btnStart.TabIndex = 0;
+            this.btnStart.TabIndex = 1;
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.btnSend_Click);
@@ -120,7 +120,7 @@
             0});
             this.numFrequency.Name = "numFrequency";
             this.numFrequency.Size = new System.Drawing.Size(73, 22);
-            this.numFrequency.TabIndex = 1;
+            this.numFrequency.TabIndex = 0;
             this.numFrequency.Value = new decimal(new int[] {
             2500,
             0,
@@ -134,7 +134,7 @@
             this.lblFrequency.Location = new System.Drawing.Point(7, 18);
             this.lblFrequency.Name = "lblFrequency";
             this.lblFrequency.Size = new System.Drawing.Size(124, 16);
-            this.lblFrequency.TabIndex = 2;
+            this.lblFrequency.TabIndex = 3;
             this.lblFrequency.Text = "IF Frequency [MHz]";
             // 
             // lblSymbolRate
@@ -180,7 +180,7 @@
             -2147483648});
             this.numSNR.Name = "numSNR";
             this.numSNR.Size = new System.Drawing.Size(73, 22);
-            this.numSNR.TabIndex = 3;
+            this.numSNR.TabIndex = 5;
             this.numSNR.Value = new decimal(new int[] {
             15,
             0,
@@ -239,7 +239,7 @@
             0});
             this.numSno.Name = "numSno";
             this.numSno.Size = new System.Drawing.Size(73, 22);
-            this.numSno.TabIndex = 14;
+            this.numSno.TabIndex = 3;
             this.numSno.Value = new decimal(new int[] {
             13,
             0,
@@ -274,7 +274,7 @@
             this.txtInputFilename.Location = new System.Drawing.Point(116, 179);
             this.txtInputFilename.Name = "txtInputFilename";
             this.txtInputFilename.Size = new System.Drawing.Size(406, 22);
-            this.txtInputFilename.TabIndex = 11;
+            this.txtInputFilename.TabIndex = 4;
             this.txtInputFilename.Text = "/home/cicd/CICD/data/testDataName/TestS13.0V0.5330.533M44I11A0.50F-2000.00T0.50O2" +
     ".50R0.35S1ns.bin";
             // 
@@ -304,7 +304,7 @@
             0});
             this.numGain.Name = "numGain";
             this.numGain.Size = new System.Drawing.Size(73, 22);
-            this.numGain.TabIndex = 9;
+            this.numGain.TabIndex = 7;
             this.numGain.Value = new decimal(new int[] {
             60,
             0,
@@ -327,7 +327,7 @@
             0});
             this.numLBandFreq.Name = "numLBandFreq";
             this.numLBandFreq.Size = new System.Drawing.Size(73, 22);
-            this.numLBandFreq.TabIndex = 7;
+            this.numLBandFreq.TabIndex = 1;
             this.numLBandFreq.Value = new decimal(new int[] {
             1,
             0,
@@ -341,7 +341,7 @@
             this.label1.Location = new System.Drawing.Point(7, 60);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(152, 16);
-            this.label1.TabIndex = 8;
+            this.label1.TabIndex = 1;
             this.label1.Text = "LBand Frequency [MHz]";
             // 
             // lblUsefulBwhz
@@ -370,7 +370,7 @@
             0});
             this.numUsefulBw.Name = "numUsefulBw";
             this.numUsefulBw.Size = new System.Drawing.Size(73, 22);
-            this.numUsefulBw.TabIndex = 5;
+            this.numUsefulBw.TabIndex = 6;
             this.numUsefulBw.Value = new decimal(new int[] {
             1,
             0,
@@ -439,7 +439,7 @@
             0});
             this.numE1Port2.Name = "numE1Port2";
             this.numE1Port2.Size = new System.Drawing.Size(65, 21);
-            this.numE1Port2.TabIndex = 5;
+            this.numE1Port2.TabIndex = 1;
             this.numE1Port2.Value = new decimal(new int[] {
             2,
             0,
@@ -472,7 +472,7 @@
             0});
             this.numE1Port1.Name = "numE1Port1";
             this.numE1Port1.Size = new System.Drawing.Size(65, 21);
-            this.numE1Port1.TabIndex = 4;
+            this.numE1Port1.TabIndex = 0;
             this.numE1Port1.Value = new decimal(new int[] {
             1,
             0,
@@ -531,11 +531,11 @@
             // btnStop
             // 
             this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStop.Location = new System.Drawing.Point(566, 438);
+            this.btnStop.Location = new System.Drawing.Point(655, 438);
             this.btnStop.Margin = new System.Windows.Forms.Padding(2);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(119, 35);
-            this.btnStop.TabIndex = 7;
+            this.btnStop.TabIndex = 2;
             this.btnStop.Text = "Stop";
             this.btnStop.UseVisualStyleBackColor = true;
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
@@ -543,11 +543,11 @@
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(207, 100);
+            this.button1.Location = new System.Drawing.Point(207, 103);
             this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(119, 35);
-            this.button1.TabIndex = 8;
+            this.button1.TabIndex = 0;
             this.button1.Text = "Status";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -559,7 +559,7 @@
             this.grpStatus.Location = new System.Drawing.Point(554, 234);
             this.grpStatus.Name = "grpStatus";
             this.grpStatus.Size = new System.Drawing.Size(548, 181);
-            this.grpStatus.TabIndex = 9;
+            this.grpStatus.TabIndex = 0;
             this.grpStatus.TabStop = false;
             this.grpStatus.Text = "Status";
             // 
@@ -619,6 +619,7 @@
             this.txtCiC2Error.ReadOnly = true;
             this.txtCiC2Error.Size = new System.Drawing.Size(155, 22);
             this.txtCiC2Error.TabIndex = 7;
+            this.txtCiC2Error.TabStop = false;
             this.txtCiC2Error.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtCiC2Data
@@ -632,6 +633,7 @@
             this.txtCiC2Data.ReadOnly = true;
             this.txtCiC2Data.Size = new System.Drawing.Size(104, 22);
             this.txtCiC2Data.TabIndex = 6;
+            this.txtCiC2Data.TabStop = false;
             this.txtCiC2Data.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtCiC1Error
@@ -645,6 +647,7 @@
             this.txtCiC1Error.ReadOnly = true;
             this.txtCiC1Error.Size = new System.Drawing.Size(155, 22);
             this.txtCiC1Error.TabIndex = 5;
+            this.txtCiC1Error.TabStop = false;
             this.txtCiC1Error.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // lblCIC1Data
@@ -718,6 +721,7 @@
             this.txtCiC1Data.ReadOnly = true;
             this.txtCiC1Data.Size = new System.Drawing.Size(104, 22);
             this.txtCiC1Data.TabIndex = 4;
+            this.txtCiC1Data.TabStop = false;
             this.txtCiC1Data.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // MainWindow
