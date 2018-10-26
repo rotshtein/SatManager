@@ -72,6 +72,7 @@ namespace WebSocketS
 
             #region CICD
             StartCICD();
+            tmrMonitor.Start();
             /*
             bool cicdStarted = StartCICD();
             if (!cicdStarted)
@@ -113,6 +114,7 @@ namespace WebSocketS
             {
                 cicdDevicve.Stop();
             }
+            chkMonitorCicd.Checked = false;
             btnStart.Enabled = true;
         }
 
@@ -172,13 +174,15 @@ namespace WebSocketS
                 if (chkUseFile.Checked)
                 {
                     log.Debug("Starting CICD - Software FE");
-                    cicdDevicve.Start(txtInputFilename.Text, (float)numFrequency.Value, (float)numLBandFreq.Value, (float)numUsefulBw.Value, (float)numGain.Value,
-                            (int)numSno.Value, "", new Uri(Properties.Settings.Default.CICDtoMedCICUri1), new Uri(Properties.Settings.Default.CICDtoMedCICUri2));
+                    cicdDevicve.Start((float)numSampleFrequency.Value, (float)numCenterFreq.Value, (float)numUsefulBw.Value, (float)numGain.Value,
+                            (int)numSno.Value, "", 
+                            new Uri(Properties.Settings.Default.CICDtoMedCICUri1), new Uri(Properties.Settings.Default.CICDtoMedCICUri2),
+                            txtInputFilename.Text, (CICD.InputType)cmbInputType.SelectedIndex, (CICD.SubType)cmbInputSubType.SelectedIndex);
                 }
                 else
                 {
                     log.Debug("Starting CICD - Hardware FE");
-                    cicdDevicve.Start(null, (float)numFrequency.Value, (float)numLBandFreq.Value, (float)numUsefulBw.Value, (float)numGain.Value,
+                    cicdDevicve.Start((float)numSampleFrequency.Value, (float)numCenterFreq.Value, (float)numUsefulBw.Value, (float)numGain.Value,
                             1, "", new Uri(Properties.Settings.Default.CICDtoMedCICUri1), new Uri(Properties.Settings.Default.CICDtoMedCICUri2));
                 }
             }
@@ -282,6 +286,31 @@ namespace WebSocketS
         }
 
         #endregion
-        
+
+        private void tmrMonitor_Tick(object sender, EventArgs e)
+        {
+            if (chkMonitorCicd.Checked)
+            {
+                if (cicdDevicve != null)
+                {
+                    cicdDevicve.getReport();
+                }
+            }
+        }
+
+        private void chkUseFile_CheckedChanged_1(object sender, EventArgs e)
+        {
+            
+            foreach (Control c in ((CheckBox)sender).Parent.Controls)
+            {
+                c.Enabled = ((CheckBox)sender).Checked;
+            }
+            ((CheckBox)sender).Enabled = true;
+        }
+
+        private void numUsefulBw_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

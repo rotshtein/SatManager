@@ -9,10 +9,10 @@
       <Value Profile="(Default)">C:\bin\lego\bin\2SignalsGenSAToP.lego</Value>
     </Setting>
     <Setting Name="CICDtoMedCICUri1" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">udp://127.0.0.1:5001</Value>
+      <Value Profile="(Default)">udp://85.250.42.163:8000</Value>
     </Setting>
     <Setting Name="CICDtoMedCICUri2" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">udp://127.0.0.1:5002</Value>
+      <Value Profile="(Default)">udp://85.250.42.163:8001</Value>
     </Setting>
     <Setting Name="MedCictoCygnusUrl1" Type="System.String" Scope="Application">
       <Value Profile="(Default)">udp://127.0.0.1:6001</Value>

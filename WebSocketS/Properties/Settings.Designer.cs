@@ -43,7 +43,7 @@ namespace WebSocketS.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("udp://127.0.0.1:5001")]
+        [global::System.Configuration.DefaultSettingValueAttribute("udp://85.250.42.163:8000")]
         public string CICDtoMedCICUri1 {
             get {
                 return ((string)(this["CICDtoMedCICUri1"]));
@@ -52,7 +52,7 @@ namespace WebSocketS.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("udp://127.0.0.1:5002")]
+        [global::System.Configuration.DefaultSettingValueAttribute("udp://85.250.42.163:8001")]
         public string CICDtoMedCICUri2 {
             get {
                 return ((string)(this["CICDtoMedCICUri2"]));

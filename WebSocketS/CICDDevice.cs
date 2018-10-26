@@ -52,13 +52,15 @@ namespace WebSocketS
         }
         #endregion
 
-        public void Start(string Inputfilename, float FeinHz, float Fchz, float Usefulbwhz, float Gaindb, float cncarrierdb, string sampleFile, Uri output1_url, Uri output2_url)
+        public void Start(float SampleFrequency, float CenterFrequency, float Usefulbwhz, float Gaindb, float cncarrierdb, string sampleFile,
+                          Uri output1_url, Uri output2_url,
+                          string Inputfilename = null, InputType inputType = InputType.Complex,SubType subtype = SubType.TypeInt16)
         {
             startThread = new Thread(
                 unused => 
-                    StartThread(Inputfilename,
-                              FeinHz, Fchz, Usefulbwhz, Gaindb, cncarrierdb,
-                              sampleFile, output1_url, output2_url));
+                    StartThread(SampleFrequency, CenterFrequency, Usefulbwhz, Gaindb, cncarrierdb,
+                              output1_url, output2_url,
+                              Inputfilename, inputType, subtype));
             startThread.Start();
             StartMonitor();
         }
@@ -88,7 +90,9 @@ namespace WebSocketS
             }
         }
 
-        public void StartThread(string Inputfilename, float FeinHz, float Fchz, float Usefulbwhz, float Gaindb, float cncarrierdb, string sampleFile, Uri output1_url, Uri output2_url)
+        public void StartThread(float SampleFrequency, float CenterFrequency, float Usefulbwhz, float Gaindb, float cncarrierdb, 
+                                Uri output1_url, Uri output2_url,
+                                string Inputfilename = null, InputType inputType = InputType.Complex, SubType subtype = SubType.TypeInt16)
         {
             log.Debug("Cicd device start");
 #if CICD_SIMULATOR
@@ -123,7 +127,7 @@ namespace WebSocketS
             {
                 if (!string.IsNullOrEmpty(Inputfilename))
                 {
-                    configureSWFE(FeinHz, Fchz, Usefulbwhz, Gaindb, Inputfilename);
+                    configureSWFE(SampleFrequency, CenterFrequency, Usefulbwhz, Gaindb, Inputfilename, inputType, subtype);
 
                     bool AckReceived = WaitForReceive(ref gotAck, 5000);
                     if (!AckReceived)
@@ -139,7 +143,7 @@ namespace WebSocketS
                 }
                 else
                 {
-                    configureHWFE(FeinHz, Fchz, Usefulbwhz, Gaindb);
+                    configureHWFE(SampleFrequency, CenterFrequency, Usefulbwhz, Gaindb);
 
                     bool AckReceived = WaitForReceive(ref gotAck, 5000);
                     if (!AckReceived)
@@ -153,6 +157,7 @@ namespace WebSocketS
                         throw new Exception("Failed to configureHWFE");
                     }
                 }
+                Thread.Sleep(1000);
                 identifyAndSeparate(output1_url, output2_url, cncarrierdb);
                 bool IdentifyReceived = WaitForReceive(ref gotAck, 5000);
                 if (!IdentifyReceived)
@@ -181,18 +186,21 @@ namespace WebSocketS
         }
 
         #region Public Proto Commands
-        public bool configureSWFE(float FeinHz, float Fchz, float Usefulbwhz, float Gaindb, string InputFilename)
+        public bool configureSWFE(float SampleFrequency, float CenterFrequency, float Usefulbwhz, float Gaindb, 
+                                  string InputFilename, InputType inputType, SubType subType)
         {
             try
             {
+                //FeinHz = 12.5F;
+                //Usefulbwhz = 2.5F;
                 configure_SWFE csw = new configure_SWFE
                 {
                     Filename = InputFilename,
-                    Inputsignaltype = InputType.Complex,
-                    Inputsignalsubtypefromfile = SubType.TypeFloat,
-                    Feinhz = FeinHz * 1000,
-                    Fchz = Fchz,
-                    Usefulbwhz = Usefulbwhz * 1000000,
+                    Inputsignaltype = inputType,
+                    Inputsignalsubtypefromfile = subType,
+                    Feinhz = SampleFrequency * 1000000, // Sample Frequency
+                    Fchz = CenterFrequency * 1000000, // Center Frequency
+                    Usefulbwhz = Usefulbwhz * 1000000, // 2.5
                     Gaindb = Gaindb,
                     Wideband = false,
                 };
@@ -446,12 +454,14 @@ namespace WebSocketS
                     switch (h.Opcode)
                     {
                         case OPCODE.Ack:
+                            log.Debug("Received Ack:" + h.ToString());
                             gotAck = true;
                             gui.ShowMessage("CICD: " + lastCommand + " pass");
                             break;
 
                         case OPCODE.Nack:
                             gotNack = true;
+                            log.Debug("Received Nack:" + h.ToString());
                             gui.ShowMessage("CICD: " + lastCommand + " failed");
                             log.Warn("got Nack from the server");
                             break;
@@ -460,6 +470,7 @@ namespace WebSocketS
                         case OPCODE.FeConfstatusChanged:
                             feStatus = FEConfStatusChanged.Parser.ParseFrom(h.MessageData);
                             feStatusEeceived = true;
+                            log.Debug("Received FeConfstatusChanged:" + feStatus.ToString());
                             break;
 
                         case OPCODE.SwfeStateChanged:
@@ -467,6 +478,7 @@ namespace WebSocketS
                             configureFE_Status = swState.ReturnCode == SWFE_state.SwfeRunning;
                             //gui.ShowMessage("CICD: SwfeStateChanged status is " + this.isRunnign.ToString());
                             swStateReceived = true;
+                            log.Debug("Received FeConfstatusChanged:" + swState.ToString());
                             break;
 
                         case OPCODE.HwfeStateChanged:
@@ -474,6 +486,7 @@ namespace WebSocketS
                             configureFE_Status = hwState.ReturnCode != 0;
                             //gui.ShowMessage("CICD: HwfeStateChanged status is " + this.isRunnign.ToString());
                             hwStateReceived = true;
+                            log.Debug("Received FeConfstatusChanged:" + hwState.ToString());
                             break;
 
                         case OPCODE.MonitoringReport:
@@ -481,7 +494,7 @@ namespace WebSocketS
                             monitorReportReceived = true;
                             isRunnign = monitorReport.FEstatus;
                             isSeperating = monitorReport.SeparationState;
-
+                            log.Debug("Received FeConfstatusChanged:" + monitorReport.ToString());
                             gui.UpdateCicdCounter(monitorReport.NbDecodedFrames1, monitorReport.NbDecodedFrames2,
                                                   monitorReport.NbErrorFrames1, monitorReport.NbErrorFrames2);
                             break;
@@ -489,8 +502,11 @@ namespace WebSocketS
                         case OPCODE.IdentificationReport:
                             cisStatus = CicStatus.Parser.ParseFrom(h.MessageData);
                             cisStatusReceived = true;
+                            log.Debug("Received FeConfstatusChanged:" + cisStatus.ToString());
                             break;
+
                         default:
+                            log.Warn("Received unknown opcode:" + h.ToString());
                             break;
                     }
                 }
