@@ -170,7 +170,7 @@ namespace WebSocketS
                  * and then the separator will start and report its status at each step. When started, 
                  * you can also request a status report at any time
                 */
-                bool MonitorReportReceived = WaitForReceive(ref monitorReportReceived, 1000);
+                //bool MonitorReportReceived = WaitForReceive(ref monitorReportReceived, 1000);
                 /*if (!MonitorReportReceived)
                 {
                     throw new Exception("Failed start seperation using identifyAndSeparate command");
