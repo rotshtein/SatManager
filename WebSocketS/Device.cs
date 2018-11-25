@@ -20,19 +20,37 @@ namespace WebSocketS
         protected bool gotNack = false;
         protected string lastCommand = "";
         protected bool isRunning = false;
+        Uri webSocketServer = null;
 
         public Device(Uri WebSocketServer, IguiInterface Gui)
         {
-            client = new Client(WebSocketServer);
-            client.ReceviedData += OnReceive;
+            webSocketServer = WebSocketServer;
             gui = Gui;
             log.Debug(MethodBase.GetCurrentMethod().DeclaringType.Name + "Created as device");
+        }
+
+        public bool Connect()
+        {
+            client = new Client(webSocketServer);
+            if (client.IsConnected)
+            {
+                client.ReceviedData += OnReceive;
+                gui.ShowMessage(this.GetType().Name + " connected");
+                log.Debug(this.GetType().Name + " connected");
+            }
+            else
+            {
+                gui.ShowMessage(this.GetType().Name + " can NOT connect");
+                log.Warn(this.GetType().Name + " can NOT connect");
+            }
+            return client.IsConnected;
         }
 
         public void StartMonitor()
         {
             runMonitor = true;
             monitorThread = new Thread(unused => MonitorThread());
+            monitorThread.IsBackground = true;
             monitorThread.Start();
         }
 

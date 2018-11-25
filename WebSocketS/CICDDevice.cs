@@ -61,6 +61,7 @@ namespace WebSocketS
                     StartThread(SampleFrequency, CenterFrequency, Usefulbwhz, Gaindb, cncarrierdb,
                               output1_url, output2_url,
                               Inputfilename, inputType, subtype));
+            startThread.IsBackground = true;
             startThread.Start();
             StartMonitor();
         }
@@ -95,6 +96,11 @@ namespace WebSocketS
                                 string Inputfilename = null, InputType inputType = InputType.Complex, SubType subtype = SubType.TypeInt16)
         {
             log.Debug("Cicd device start");
+            if (Connect() == false)
+            {
+                log.Warn("Cannot connect to the CICD server");
+                return;
+            }
 #if CICD_SIMULATOR
             /* 
              * Start legobits from a predefine location using a predefined file with fix address.

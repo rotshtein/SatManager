@@ -8,11 +8,11 @@
     <Setting Name="LegoFile" Type="System.String" Scope="Application">
       <Value Profile="(Default)">C:\bin\lego\bin\2SignalsGenSAToP.lego</Value>
     </Setting>
-    <Setting Name="CICDtoMedCICUri1" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">udp://85.250.42.163:8000</Value>
+    <Setting Name="CICDtoMedCICUri1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">udp://46.116.91.78:8000</Value>
     </Setting>
-    <Setting Name="CICDtoMedCICUri2" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">udp://85.250.42.163:8001</Value>
+    <Setting Name="CICDtoMedCICUri2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">udp://46.116.91.78:8001</Value>
     </Setting>
     <Setting Name="MedCictoCygnusUrl1" Type="System.String" Scope="Application">
       <Value Profile="(Default)">udp://127.0.0.1:6001</Value>
@@ -23,16 +23,52 @@
     <Setting Name="CICCDUrl" Type="System.String" Scope="Application">
       <Value Profile="(Default)">ws://176.149.163.161:7000</Value>
     </Setting>
-    <Setting Name="MedCicUrl" Type="System.String" Scope="User">
+    <Setting Name="MedCicUrl" Type="System.String" Scope="Application">
       <Value Profile="(Default)">127.0.0.1:8888</Value>
     </Setting>
-    <Setting Name="CygnusUrl" Type="System.String" Scope="User">
+    <Setting Name="CygnusUrl" Type="System.String" Scope="Application">
       <Value Profile="(Default)">127.0.0.01:8889</Value>
     </Setting>
     <Setting Name="InputFilename" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">/media/cicd/Elements/62E_13m_oct18/62E_C-band_LH_1013.34MHz_QPSK_17dB_fs_12.5MHz_041018.bin</Value>
     </Setting>
     <Setting Name="debug" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="InputType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">COMPLEX</Value>
+    </Setting>
+    <Setting Name="InputSubType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">INT16</Value>
+    </Setting>
+    <Setting Name="E1_1" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="E1_2" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="SampleFrequncy" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">12.5</Value>
+    </Setting>
+    <Setting Name="CenterFrequency" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="SymbolRate" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="SnoEstimate" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">17</Value>
+    </Setting>
+    <Setting Name="SNR" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">-15.0</Value>
+    </Setting>
+    <Setting Name="UsefulBW_MHz" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">2.5</Value>
+    </Setting>
+    <Setting Name="Gain" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="FileMode" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>

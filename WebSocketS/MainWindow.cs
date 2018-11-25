@@ -12,6 +12,7 @@ namespace WebSocketS
         #region Members
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType.Name);
         Client c = null;
+        SaveControl saveControl = null;
         
         // DC
         CICDDevice cicdDevicve;
@@ -23,6 +24,8 @@ namespace WebSocketS
         public MainWindow()
         {
             InitializeComponent();
+            saveControl = new SaveControl(this);
+            saveControl.InitGuiData();
         }
 
         private void MainWindow_Load(object sender, EventArgs e)
@@ -31,8 +34,10 @@ namespace WebSocketS
             
             c.Send("Hello");
             c.Send(new byte[] { 1, 2, 3, 4, 5 });
-            
         }
+
+       
+
 
         private bool IsSAToP()
         {
@@ -49,6 +54,8 @@ namespace WebSocketS
                 btnStart.Enabled = true;
             }
 
+            saveControl.SaveGuiData();
+
             if (chkUseFile.Checked)
             {
                 if (string.IsNullOrEmpty(chkUseFile.Text) )
@@ -57,8 +64,7 @@ namespace WebSocketS
                     btnStart.Enabled = true;
                 }
 
-                Properties.Settings.Default.InputFilename = txtInputFilename.Text;
-                Properties.Settings.Default.Save();
+              
             }
 
             #region DownConverter
@@ -73,13 +79,7 @@ namespace WebSocketS
             #region CICD
             StartCICD();
             tmrMonitor.Start();
-            /*
-            bool cicdStarted = StartCICD();
-            if (!cicdStarted)
-            {
-                log.Info("Failed to start CICD");
-                //btnStop_Click(sender, e);
-            }*/
+          
             #endregion
 
             #region Mediation

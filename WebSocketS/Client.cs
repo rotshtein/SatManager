@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using WebSocketSharp;
 
+
 namespace WebSocketS
 {
     class Client
@@ -38,6 +39,8 @@ namespace WebSocketS
                 throw new Exception("Failed to connect to WebSocket server");
             }
         }
+
+        public bool IsConnected { get { return ws.IsAlive; } }
 
         public static void CloseAll()
         {

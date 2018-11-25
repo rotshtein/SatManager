@@ -22,6 +22,9 @@ namespace WebSocketS
             startThread = new Thread(
                unused =>
                    StartThread(input1_url, input2_url, output1_url, output2_url));
+
+            startThread.IsBackground = true;
+            startThread.Start();
             StartMonitor();
         }
 
@@ -45,6 +48,12 @@ namespace WebSocketS
         {
             try
             {
+                if (Connect() == false)
+                {
+                    log.Warn("Cannot connect to the Mediation server");
+                    return;
+                }
+
                 log.Debug("Starting Mediation");
                 lastCommand = "Start Command";
                 AutomaticStartCommand asc = new AutomaticStartCommand

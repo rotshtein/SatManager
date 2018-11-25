@@ -22,6 +22,9 @@ namespace WebSocketS
             startThread = new Thread(
                 unused =>
                     StartThread(Orion_url, input1_url, input2_url, Port1, Port2));
+
+            startThread.IsBackground = true;
+            startThread.Start();
             StartMonitor();
         }
 
@@ -44,6 +47,12 @@ namespace WebSocketS
         public bool StartThread(Uri Orion_url, Uri input1_url, Uri input2_url, int Port1 , int Port2)
         {
             log.Debug("Cygnus started");
+            if (Connect() == false)
+            {
+                log.Warn("Cannot connect to the Cygnus server");
+                return false;
+            }
+
             try
             {
                 lastCommand = "Start Command";

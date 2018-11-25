@@ -12,7 +12,7 @@ namespace WebSocketS.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.8.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.7.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -41,21 +41,27 @@ namespace WebSocketS.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("udp://85.250.42.163:8000")]
+        [global::System.Configuration.DefaultSettingValueAttribute("udp://46.116.91.78:8000")]
         public string CICDtoMedCICUri1 {
             get {
                 return ((string)(this["CICDtoMedCICUri1"]));
             }
+            set {
+                this["CICDtoMedCICUri1"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("udp://85.250.42.163:8001")]
+        [global::System.Configuration.DefaultSettingValueAttribute("udp://46.116.91.78:8001")]
         public string CICDtoMedCICUri2 {
             get {
                 return ((string)(this["CICDtoMedCICUri2"]));
+            }
+            set {
+                this["CICDtoMedCICUri2"] = value;
             }
         }
         
@@ -86,33 +92,28 @@ namespace WebSocketS.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("127.0.0.1:8888")]
         public string MedCicUrl {
             get {
                 return ((string)(this["MedCicUrl"]));
             }
-            set {
-                this["MedCicUrl"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("127.0.0.01:8889")]
         public string CygnusUrl {
             get {
                 return ((string)(this["CygnusUrl"]));
             }
-            set {
-                this["CygnusUrl"] = value;
-            }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("/media/cicd/Elements/62E_13m_oct18/62E_C-band_LH_1013.34MHz_QPSK_17dB_fs_12.5MHz_" +
+            "041018.bin")]
         public string InputFilename {
             get {
                 return ((string)(this["InputFilename"]));
@@ -131,6 +132,150 @@ namespace WebSocketS.Properties {
             }
             set {
                 this["debug"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("COMPLEX")]
+        public string InputType {
+            get {
+                return ((string)(this["InputType"]));
+            }
+            set {
+                this["InputType"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("INT16")]
+        public string InputSubType {
+            get {
+                return ((string)(this["InputSubType"]));
+            }
+            set {
+                this["InputSubType"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int E1_1 {
+            get {
+                return ((int)(this["E1_1"]));
+            }
+            set {
+                this["E1_1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public int E1_2 {
+            get {
+                return ((int)(this["E1_2"]));
+            }
+            set {
+                this["E1_2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("12.5")]
+        public decimal SampleFrequncy {
+            get {
+                return ((decimal)(this["SampleFrequncy"]));
+            }
+            set {
+                this["SampleFrequncy"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public decimal CenterFrequency {
+            get {
+                return ((decimal)(this["CenterFrequency"]));
+            }
+            set {
+                this["CenterFrequency"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public decimal SymbolRate {
+            get {
+                return ((decimal)(this["SymbolRate"]));
+            }
+            set {
+                this["SymbolRate"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("17")]
+        public decimal SnoEstimate {
+            get {
+                return ((decimal)(this["SnoEstimate"]));
+            }
+            set {
+                this["SnoEstimate"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-15.0")]
+        public decimal SNR {
+            get {
+                return ((decimal)(this["SNR"]));
+            }
+            set {
+                this["SNR"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2.5")]
+        public decimal UsefulBW_MHz {
+            get {
+                return ((decimal)(this["UsefulBW_MHz"]));
+            }
+            set {
+                this["UsefulBW_MHz"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public decimal Gain {
+            get {
+                return ((decimal)(this["Gain"]));
+            }
+            set {
+                this["Gain"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool FileMode {
+            get {
+                return ((bool)(this["FileMode"]));
+            }
+            set {
+                this["FileMode"] = value;
             }
         }
     }
