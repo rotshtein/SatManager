@@ -179,7 +179,7 @@
             // 
             this.numSymbolRate.Location = new System.Drawing.Point(170, 100);
             this.numSymbolRate.Maximum = new decimal(new int[] {
-            100000,
+            10000000,
             0,
             0,
             0});
@@ -311,6 +311,11 @@
             0,
             0,
             0});
+            this.numGain.Minimum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            -2147483648});
             this.numGain.Name = "numGain";
             this.numGain.Size = new System.Drawing.Size(73, 22);
             this.numGain.TabIndex = 7;
@@ -330,6 +335,11 @@
             0,
             0,
             0});
+            this.numCenterFreq.Minimum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            -2147483648});
             this.numCenterFreq.Name = "numCenterFreq";
             this.numCenterFreq.Size = new System.Drawing.Size(73, 22);
             this.numCenterFreq.TabIndex = 1;
@@ -618,7 +628,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 43.43435F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 56.56565F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 142F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 164F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 165F));
             this.tableLayoutPanel2.Controls.Add(this.textBox1, 3, 1);
             this.tableLayoutPanel2.Controls.Add(this.textBox2, 1, 1);
             this.tableLayoutPanel2.Controls.Add(this.textBox3, 3, 0);
@@ -641,10 +651,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(336, 30);
+            this.textBox1.Location = new System.Drawing.Point(335, 30);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(159, 22);
+            this.textBox1.Size = new System.Drawing.Size(160, 22);
             this.textBox1.TabIndex = 7;
             this.textBox1.TabStop = false;
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -655,7 +665,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(86, 30);
+            this.textBox2.Location = new System.Drawing.Point(85, 30);
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
             this.textBox2.Size = new System.Drawing.Size(102, 22);
@@ -669,10 +679,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.Location = new System.Drawing.Point(336, 3);
+            this.textBox3.Location = new System.Drawing.Point(335, 3);
             this.textBox3.Name = "textBox3";
             this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(159, 22);
+            this.textBox3.Size = new System.Drawing.Size(160, 22);
             this.textBox3.TabIndex = 5;
             this.textBox3.TabStop = false;
             this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -687,7 +697,7 @@
             this.label2.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label2.Location = new System.Drawing.Point(3, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(77, 27);
+            this.label2.Size = new System.Drawing.Size(76, 27);
             this.label2.TabIndex = 0;
             this.label2.Text = "CIC 1 Input";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -702,7 +712,7 @@
             this.label3.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label3.Location = new System.Drawing.Point(3, 27);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(77, 27);
+            this.label3.Size = new System.Drawing.Size(76, 27);
             this.label3.TabIndex = 1;
             this.label3.Text = "CIC 2 Input";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -715,7 +725,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label4.Location = new System.Drawing.Point(194, 0);
+            this.label4.Location = new System.Drawing.Point(193, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(136, 27);
             this.label4.TabIndex = 2;
@@ -730,7 +740,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label5.Location = new System.Drawing.Point(194, 27);
+            this.label5.Location = new System.Drawing.Point(193, 27);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(136, 27);
             this.label5.TabIndex = 3;
@@ -743,7 +753,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox4.Location = new System.Drawing.Point(86, 3);
+            this.textBox4.Location = new System.Drawing.Point(85, 3);
             this.textBox4.Name = "textBox4";
             this.textBox4.ReadOnly = true;
             this.textBox4.Size = new System.Drawing.Size(102, 22);
@@ -797,7 +807,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 43.43435F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 56.56565F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 142F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 164F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 165F));
             this.tableLayoutPanel1.Controls.Add(this.txtCiC2Error, 3, 1);
             this.tableLayoutPanel1.Controls.Add(this.txtCiC2Data, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.txtCiC1Error, 3, 0);
@@ -820,10 +830,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCiC2Error.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCiC2Error.Location = new System.Drawing.Point(336, 30);
+            this.txtCiC2Error.Location = new System.Drawing.Point(335, 30);
             this.txtCiC2Error.Name = "txtCiC2Error";
             this.txtCiC2Error.ReadOnly = true;
-            this.txtCiC2Error.Size = new System.Drawing.Size(159, 22);
+            this.txtCiC2Error.Size = new System.Drawing.Size(160, 22);
             this.txtCiC2Error.TabIndex = 7;
             this.txtCiC2Error.TabStop = false;
             this.txtCiC2Error.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -834,7 +844,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCiC2Data.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCiC2Data.Location = new System.Drawing.Point(86, 30);
+            this.txtCiC2Data.Location = new System.Drawing.Point(85, 30);
             this.txtCiC2Data.Name = "txtCiC2Data";
             this.txtCiC2Data.ReadOnly = true;
             this.txtCiC2Data.Size = new System.Drawing.Size(102, 22);
@@ -848,10 +858,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCiC1Error.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCiC1Error.Location = new System.Drawing.Point(336, 3);
+            this.txtCiC1Error.Location = new System.Drawing.Point(335, 3);
             this.txtCiC1Error.Name = "txtCiC1Error";
             this.txtCiC1Error.ReadOnly = true;
-            this.txtCiC1Error.Size = new System.Drawing.Size(159, 22);
+            this.txtCiC1Error.Size = new System.Drawing.Size(160, 22);
             this.txtCiC1Error.TabIndex = 5;
             this.txtCiC1Error.TabStop = false;
             this.txtCiC1Error.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -866,7 +876,7 @@
             this.lblCIC1Data.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblCIC1Data.Location = new System.Drawing.Point(3, 0);
             this.lblCIC1Data.Name = "lblCIC1Data";
-            this.lblCIC1Data.Size = new System.Drawing.Size(77, 27);
+            this.lblCIC1Data.Size = new System.Drawing.Size(76, 27);
             this.lblCIC1Data.TabIndex = 0;
             this.lblCIC1Data.Text = "CIC 1 Data";
             this.lblCIC1Data.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -881,7 +891,7 @@
             this.lblCIC2Data.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblCIC2Data.Location = new System.Drawing.Point(3, 27);
             this.lblCIC2Data.Name = "lblCIC2Data";
-            this.lblCIC2Data.Size = new System.Drawing.Size(77, 27);
+            this.lblCIC2Data.Size = new System.Drawing.Size(76, 27);
             this.lblCIC2Data.TabIndex = 1;
             this.lblCIC2Data.Text = "CIC 2 Data";
             this.lblCIC2Data.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -894,7 +904,7 @@
             this.lblCIC1Errors.AutoSize = true;
             this.lblCIC1Errors.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCIC1Errors.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblCIC1Errors.Location = new System.Drawing.Point(194, 0);
+            this.lblCIC1Errors.Location = new System.Drawing.Point(193, 0);
             this.lblCIC1Errors.Name = "lblCIC1Errors";
             this.lblCIC1Errors.Size = new System.Drawing.Size(136, 27);
             this.lblCIC1Errors.TabIndex = 2;
@@ -909,7 +919,7 @@
             this.lblCIC2Errors.AutoSize = true;
             this.lblCIC2Errors.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCIC2Errors.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblCIC2Errors.Location = new System.Drawing.Point(194, 27);
+            this.lblCIC2Errors.Location = new System.Drawing.Point(193, 27);
             this.lblCIC2Errors.Name = "lblCIC2Errors";
             this.lblCIC2Errors.Size = new System.Drawing.Size(136, 27);
             this.lblCIC2Errors.TabIndex = 3;
@@ -922,7 +932,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCiC1Data.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCiC1Data.Location = new System.Drawing.Point(86, 3);
+            this.txtCiC1Data.Location = new System.Drawing.Point(85, 3);
             this.txtCiC1Data.Name = "txtCiC1Data";
             this.txtCiC1Data.ReadOnly = true;
             this.txtCiC1Data.Size = new System.Drawing.Size(102, 22);
