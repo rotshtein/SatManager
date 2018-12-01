@@ -56,6 +56,8 @@ namespace WebSocketS
 
             saveControl.SaveGuiData();
 
+            ClearCounters();
+
             if (chkUseFile.Checked)
             {
                 if (string.IsNullOrEmpty(chkUseFile.Text) )
@@ -108,11 +110,20 @@ namespace WebSocketS
             #endregion
         }
         
+        private void ClearCounters()
+        {
+            txtCiC1Data.Text = "";
+            txtCiC2Data.Text = "";
+            txtCiC1Error.Text = "";
+            txtCiC2Error.Text = "";
+        }
+
         private void btnStop_Click(object sender, EventArgs e)
         {
             if (cicdDevicve != null)
             {
                 cicdDevicve.Stop();
+                cicdDevicve = null;
             }
             chkMonitorCicd.Checked = false;
             btnStart.Enabled = true;
