@@ -556,6 +556,7 @@ namespace WebSocketS
                     return false;
                 }
                 StopMonitor();
+                Close();
             }
             catch (Exception ex)
             {

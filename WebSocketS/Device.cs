@@ -46,6 +46,26 @@ namespace WebSocketS
             return client.IsConnected;
         }
 
+        public bool Close()
+        {
+            if (client != null)
+            {
+                if (client.IsConnected)
+                {
+                    client.ReceviedData -= OnReceive;
+                    gui.ShowMessage(this.GetType().Name + " disconnect");
+                    log.Debug(this.GetType().Name + " disconnect");
+                }
+                else
+                {
+                    log.Warn(this.GetType().Name + " alreay disconnected");
+                }
+                client.Close();
+                return !client.IsConnected;
+            }
+            return true;
+        }
+
         public void StartMonitor()
         {
             runMonitor = true;
